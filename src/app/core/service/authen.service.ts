@@ -14,7 +14,7 @@ export class AuthenService {
     let headers=new Headers();
     headers.append("Content-Type","application/x-www-form-urlencoded");
     let option=new RequestOptions({headers:headers});
-    return this._http.post(SystemConstant.BASE_API+'/api/oauth/token',body,option).map((response:Response)=>{
+    return this._http.post(SystemConstant.BASE_API+'api/oauth/token',body,option).map((response:Response)=>{
         let user:LoggedInUser= response.json();
         if (user!=null&& user.access_token!=null){
           localStorage.removeItem(SystemConstant.CURRENT_USER);
@@ -28,7 +28,7 @@ export class AuthenService {
   isUserAuthenticated():boolean{
     let user=localStorage.getItem(SystemConstant.CURRENT_USER);
     if (user!=null)
-      return true
+     {return true} 
      else
       return false; 
   };
