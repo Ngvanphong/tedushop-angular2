@@ -9,14 +9,14 @@ export class AuthenService {
 
   constructor(private _http:Http) { }
   login(userName:string,password:string){
-    let body= "userName="+encodeURIComponent(userName)+"&password="+encodeURIComponent(password)
-    +"&grant_type-password";
+    let body= "username="+encodeURIComponent(userName)+"&password="+encodeURIComponent(password)
+    +"&grant_type=password";
     let headers=new Headers();
     headers.append("Content-Type","application/x-www-form-urlencoded");
     let option=new RequestOptions({headers:headers});
-    return this._http.post(SystemConstant.BASE_API+'api/oauth/token',body,option).map((response:Response)=>{
+    return this._http.post(SystemConstant.BASE_API+'/api/oauth/token',body,option).map((response:Response)=>{
         let user:LoggedInUser= response.json();
-        if (user!=null&& user.access_token!=null){
+        if (user && user.access_token){
           localStorage.removeItem(SystemConstant.CURRENT_USER);
           localStorage.setItem(SystemConstant.CURRENT_USER,JSON.stringify(user));
         }

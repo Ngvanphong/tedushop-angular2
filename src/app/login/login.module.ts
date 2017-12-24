@@ -6,6 +6,7 @@ import {FormsModule} from '@angular/forms'
 import {AuthenService} from '../core/service/authen.service';
 import {UtilityService} from '../core/service/utility.service';
 import {NotificationService} from '../core/service/notification.service';
+import {HttpModule} from '@angular/http'
 const loginRouter:Routes=[
   {path:'', component:LoginComponent},
 ]
@@ -13,6 +14,7 @@ const loginRouter:Routes=[
 @NgModule({
   imports: [
     CommonModule,
+    HttpModule,
     FormsModule,
     RouterModule.forChild(loginRouter)
   ],

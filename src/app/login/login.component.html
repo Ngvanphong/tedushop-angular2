@@ -16,8 +16,8 @@
             </div>
             <div>
               <button [disabled]="loading" class="btn btn-default" href="#" >Đăng nhập</button>
-
-              <button class="reset_pass" href="#">Quên mật khẩu</button>
+              <img *ngIf="loading" src=""/>
+              <button class="btn btn-default"  href="#">Quên mật khẩu</button>
             </div>
 
             <div class="clearfix"></div>
