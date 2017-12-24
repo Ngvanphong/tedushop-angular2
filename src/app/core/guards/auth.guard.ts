@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate{
 
         }
         canActivate(activateRoute:ActivatedRouteSnapshot, routerState:RouterStateSnapshot){
-            if (localStorage.getItem(SystemConstant.CURRENT_USER)){
+            if (this._authenservice.isUserAuthenticated()){
                 return true
             }
             else{
