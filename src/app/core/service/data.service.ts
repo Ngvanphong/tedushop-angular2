@@ -11,36 +11,37 @@ import {Router} from '@angular/router'
 import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class DataService {
-
+  private headers:Headers;
   constructor(private _http:Http,private authentication:AuthenService, private notification:NotificationService, private utility:UtilityService) {
-    
+    this.headers=new Headers();
+    this.headers.append("Content-Type","application/json")
    }
-   private headers:Headers;
+ 
 
   get(uri:string){
-    this.headers.delete("Authenrization");
-    this.headers.append("Authenrization","Bearer"+this.authentication.getUserLogin().access_token)
+    this.headers.delete("Authorization");
+    this.headers.append("Authorization","Bearer"+this.authentication.getUserLogin().access_token)
     return this._http.get(SystemConstant.BASE_API+uri,{headers:this.headers}).map(this.extractData)
   };
   post(uri:string, data?: any){
-    this.headers.delete("Authenrization");
-    this.headers.append("Authenrization","Bearer"+this.authentication.getUserLogin().access_token)
+    this.headers.delete("Authorization");
+    this.headers.append("Authorization","Bearer"+this.authentication.getUserLogin().access_token)
     return this._http.post(SystemConstant.BASE_API+uri,data,{headers:this.headers}).map(this.extractData)
   };
   put(uri:string,data?:any){
-    this.headers.delete("Authenrization");
-    this.headers.append("Authenrization","Bearer"+this.authentication.getUserLogin().access_token)
+    this.headers.delete("Authorization");
+    this.headers.append("Authorization","Bearer"+this.authentication.getUserLogin().access_token)
     return this._http.put(SystemConstant.BASE_API+uri,{headers:this.headers}).map(this.extractData)
   };
   delete(uri:string,key:string,id:string){
-    this.headers.delete("Authenrization");
-    this.headers.append("Authenrization","Bearer"+this.authentication.getUserLogin().access_token)
+    this.headers.delete("Authorization");
+    this.headers.append("Authorization","Bearer"+this.authentication.getUserLogin().access_token)
     return this._http.get(SystemConstant.BASE_API+uri+"/?"+key+"="+id,{headers:this.headers}).map(this.extractData)
   };
   postFile(uri:string,data?:any){
     let newHeaders= new Headers();
-    newHeaders.append("Authenrization","Bearer"+this.authentication.getUserLogin().access_token)
-    return this._http.get(SystemConstant.BASE_API+uri,{headers:this.headers}).map(this.extractData)
+    newHeaders.append("Authorization","Bearer"+this.authentication.getUserLogin().access_token)
+    return this._http.get(SystemConstant.BASE_API+uri,{headers:newHeaders}).map(this.extractData)
   }
   private extractData(res:Response){
    let body = res.json();
