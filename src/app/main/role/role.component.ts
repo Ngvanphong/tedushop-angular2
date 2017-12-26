@@ -19,9 +19,9 @@ export class RoleComponent implements OnInit {
     this.load();
   }
  private load(){
-    this.dataservic.get("/api/appRole/getlistpaging?page="+this.pageIndex+"&pageSize="+this.pageSize+"&filter="+this.filter)
+    this.dataservic.get('/api/appRole/getlistpaging?page='+this.pageIndex+'&pageSize='+this.pageSize+'&filter='+this.filter)
     .subscribe((res:any)=>{
-      console.log(res);
+      this.roles=res.Items;
     })
   }
 

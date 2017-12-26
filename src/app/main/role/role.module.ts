@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RoleComponent } from './role.component';
 import {Routes,RouterModule} from '@angular/router'
 import {DataService} from '../../core/service/data.service'
-
+import {NotificationService} from '../../core/service/notification.service'
 const roleRoutes:Routes=[
   {path:'', redirectTo:'index', pathMatch:'full'},
   {path:'index',component:RoleComponent}
@@ -15,7 +15,8 @@ const roleRoutes:Routes=[
     RouterModule.forChild(roleRoutes)
   ],
   providers:[
-    DataService
+    DataService,
+    NotificationService
   ],
   declarations: [RoleComponent]
 })
