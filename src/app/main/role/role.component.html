@@ -1,6 +1,6 @@
 <div class="page-title">
   <div class="title_left">
-    <h3>Tables <small>Some examples to get you started</small></h3>
+    <h3>Nhóm quyền</h3>
   </div>
 
   <div class="title_right">
@@ -18,21 +18,8 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
-      <h2>Nhóm quền</h2>
       <ul class="nav navbar-right panel_toolbox">
-        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Settings 1</a>
-            </li>
-            <li><a href="#">Settings 2</a>
-            </li>
-          </ul>
-        </li>
-        <li><a class="close-link"><i class="fa fa-close"></i></a>
-        </li>
+        <button class="btn btn-primary" (click)="addEdit()">Thêm mới</button>
       </ul>
       <div class="clearfix"></div>
     </div>
@@ -61,6 +48,34 @@
         <pagination [boundaryLinks]="true" (pageChanged)="pageChanged($event)" [itemsPerPage]="pageSize" [totalItems]="totalRows" [(ngModel)]="pageIndex" class="pagination-sm"
                     previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
         </div>
+    </div>
+  </div>
+</div>
+<!--this is a modal-->
+<div bsModal #addEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Thêm/Sửa quyền</h4>
+        <button type="button" class="close pull-right" (click)="addEditModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form-label-left" #formEditModal="ngForm" name="EditModel" novalidate (ngSubmit)="saveChanged(formEditModal.valid)" *ngIf="entity">
+          <div class="form-group" >
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tên nhóm</label>
+            <div class=" col-md-9 col-sm-9 col-xs-12">
+              <input class="form-control" type="hidden" required [(ngModel)]="entity.Id" name="id"/>
+              <input type="text" class="form-control" required #name="ngModel" [(ngModel)]="entity.Name" name="name" 
+              minlength="3" />
+              <small [hidden]="name.valid || (nameRole.pristine && !formEditModal.submitted)" class="text-danger">
+                  Bạn phải nhập ít nhất 3 ký tự.
+              </small>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
