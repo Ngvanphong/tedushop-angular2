@@ -31,7 +31,7 @@ export class RoleComponent implements OnInit {
       this.pageIndex=res.PageIndex;
       this.pageSize=res.PageSize;
       this.totalRows=res.TotalRows;
-      console.log(res);
+
     })
   }
   pageChanged(event:any):void{
