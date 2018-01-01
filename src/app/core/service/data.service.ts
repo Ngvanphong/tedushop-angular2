@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import {Http,Headers} from '@angular/http';
-import {AuthenService} from './authen.service'
-import {SystemConstant} from '../common/system.constant'
+import {AuthenService} from './authen.service';
+import {SystemConstant} from '../common/system.constant';
 import { Response } from '@angular/http/src/static_response';
 import {NotificationService} from './notification.service';
-import{MessageConstant } from '../common/message.constant'
-import{UtilityService} from './utility.service'
+import{MessageConstant } from '../common/message.constant';
+import{UtilityService} from './utility.service';
 import 'rxjs/add/operator/map';
-import {Router} from '@angular/router'
+import {Router} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class DataService {

@@ -1,4 +1,4 @@
-<div>
+<div >
     <a class="hiddenanchor" id="signup"></a>
     <a class="hiddenanchor" id="signin"></a>
     <div class="login_wrapper">
@@ -8,11 +8,11 @@
             <h1>Đăng nhập</h1>
             <div [ngClass]="{'has-error': f.submitted && !username.valid }">
               <input type="text" class="form-control" name="username" #username ="ngModel" [(ngModel)]="model.username" required  />
-              <div *ngIf="f.submit && !username.valid" class="help-block">Tên đăng nhập yêu cầu</div>
+              <div *ngIf="f.submitted && !username.valid" class="help-block">Tên đăng nhập yêu cầu</div>
             </div>
             <div [ngClass]="{'has-error': f.submitted && !password.valid}">
               <input type="password" class="form-control" name="password" #password="ngModel" [(ngModel)]="model.password" required/>
-              <div *ngIf="f.submit && !password.valid" class="help-block">Mật khẩu yêu cầu</div>
+              <div *ngIf="f.submitted && !password.valid" class="help-block">Mật khẩu yêu cầu</div>
             </div>
             <div>
               <button [disabled]="loading" class="btn btn-default" href="#" >Đăng nhập</button>
