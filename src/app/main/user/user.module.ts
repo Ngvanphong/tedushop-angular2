@@ -2,6 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserComponent } from './user.component';
 import {Routes,RouterModule} from '@angular/router';
+import {DataService} from '../../core/service/data.service';
+import {NotificationService} from '../../core/service/notification.service';
+import {FormsModule} from '@angular/forms' ;
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 const userRoutes:Routes=[
   {path:'', redirectTo:'index', pathMatch:'full'},
@@ -11,8 +16,13 @@ const userRoutes:Routes=[
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(userRoutes)
- 
+    RouterModule.forChild(userRoutes),
+    FormsModule,
+    PaginationModule,
+    ModalModule.forRoot()
+  ],
+  providers:[DataService,
+    NotificationService
   ],
   declarations: [UserComponent]
 })
