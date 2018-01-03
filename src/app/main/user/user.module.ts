@@ -7,6 +7,8 @@ import {NotificationService} from '../../core/service/notification.service';
 import {FormsModule} from '@angular/forms' ;
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+import { Daterangepicker } from 'ng2-daterangepicker';
 
 const userRoutes:Routes=[
   {path:'', redirectTo:'index', pathMatch:'full'},
@@ -19,7 +21,9 @@ const userRoutes:Routes=[
     RouterModule.forChild(userRoutes),
     FormsModule,
     PaginationModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    MultiselectDropdownModule,
+    Daterangepicker
   ],
   providers:[DataService,
     NotificationService

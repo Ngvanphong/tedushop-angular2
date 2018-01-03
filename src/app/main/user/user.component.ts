@@ -12,7 +12,7 @@ import { MessageConstant } from '../../core/common/message.constant'
 })
 export class UserComponent implements OnInit {
 
-  @ViewChild('addEditModal') addEditModal: ModalDirective;
+  @ViewChild('modalAddEdit') addEditModal: ModalDirective;
   public pageIndex: number = 1;
   public pageSize: number = 20;
   public pageDisplay: number = 10;
@@ -20,12 +20,37 @@ export class UserComponent implements OnInit {
   public totalRows: number;
   public entity: any;
   users: any;
+  public allRoles:any[];
+  public myRoles:any[];
+  public roles:any[];
 
   constructor(private dataservice: DataService, private _notification: NotificationService) { }
 
   ngOnInit() {
     this.load();
+    this.loadRole();
   }
+
+  public selectGender(event){
+    this.entity.Gender=event.target.value;
+  }
+  private loadRole(){
+    this.dataservice.get("/api/appRole/getlistall").subscribe(data=>{
+      this.roles=data;
+      console.log(data)
+      this.allRoles=[];
+      for(let role of this.roles){      
+        this.allRoles.push({id:role.Name,name:role.Description});
+      }
+    })
+  }
+
+  public dateOptions: any = {
+    locale: { format: 'DD-MM-YYYY' },
+    alwaysShowCalendars: false,
+    singleDatePicker:true,
+    drops: 'up'
+};
   private load() {
     this.dataservice.get('/api/appUser/getlistpaging?page=' + this.pageIndex + '&pageSize=' + this.pageSize + '&filter=' + this.filter)
       .subscribe((res: any) => {
@@ -43,18 +68,18 @@ export class UserComponent implements OnInit {
     this.addEditModal.show();
     this.entity = {};
   }
-  private loadRole(id: any) {
+  private loadUser(id: any) {
     this.dataservice.get('/api/appUser/detail/' + id)
       .subscribe((res: any) => {
         this.entity = res;
       })
     console.log(this.entity)
   }
-  EditRoleModal(id: any) {
-    this.loadRole(id);
+  EditUserModal(id: any) {
+    this.loadUser(id);
     this.addEditModal.show();
   };
-  deleteRole(id: any) {
+  deleteUser(id: any) {
     this._notification.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG, () => this.deleteConfirm(id))
   }
 
@@ -65,10 +90,10 @@ export class UserComponent implements OnInit {
     })
   }
 
-  saveChanged(valid: boolean) {
+  saveChange(valid: boolean) {
     if (valid) {
       if (this.entity.Id == undefined) {
-        this.dataservice.post("/api/appRole/add", JSON.stringify(this.entity)).subscribe((res: any) => {
+        this.dataservice.post("/api/appUser/add", JSON.stringify(this.entity)).subscribe((res: any) => {
           this.load();
           this.addEditModal.hide();
           this._notification.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
@@ -76,7 +101,7 @@ export class UserComponent implements OnInit {
         }, error => this.dataservice.handleError(error))
       }
       else {
-        this.dataservice.put("/api/appRole/update", JSON.stringify(this.entity)).subscribe((res: any) => {
+        this.dataservice.put("/api/appUser/update", JSON.stringify(this.entity)).subscribe((res: any) => {
           this.load();
           this.addEditModal.hide();
           this._notification.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
