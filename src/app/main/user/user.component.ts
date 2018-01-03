@@ -73,7 +73,7 @@ export class UserComponent implements OnInit {
       .subscribe((res: any) => {
         this.entity = res;
       })
-    console.log(this.entity)
+
   }
   EditUserModal(id: any) {
     this.loadUser(id);
