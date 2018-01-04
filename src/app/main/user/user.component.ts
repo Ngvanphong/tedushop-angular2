@@ -39,7 +39,6 @@ export class UserComponent implements OnInit {
   private loadRole(){
     this.dataservice.get("/api/appRole/getlistall").subscribe(data=>{
       this.roles=data;
-      console.log(data)
       this.allRoles=[];
       for(let role of this.roles){      
         this.allRoles.push({id:role.Name,name:role.Description});
@@ -74,11 +73,12 @@ export class UserComponent implements OnInit {
     this.dataservice.get('/api/appUser/detail/' + id)
       .subscribe((res: any) => {
         this.entity = res;
-        console.log(res);
+        this.myRoles=[];
+        this.entity.BirthDay=moment(this.entity.BirthDay,'DD/MM/YYYY').format('DD/MM/YYYY');
         for(let role of this.entity.Roles){
           this.myRoles.push(role);
         };
-        this.entity.BirthDay=moment(this.entity.BirthDay,'DD/MM/YYYY').format('DD/MM/YYYY');
+   
       })
 
   }
