@@ -2,16 +2,18 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from '../../core/service/data.service'
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { SystemConstant } from '../../core/common/system.constant';
-import { NotificationService } from '../../core/service/notification.service'
-import { MessageConstant } from '../../core/common/message.constant'
-
+import { NotificationService } from '../../core/service/notification.service';
+import { MessageConstant } from '../../core/common/message.constant';
+//import * as moment from '../../../../node_modules/moment/moment.js';
+declare var moment;
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit {
 
+export class UserComponent implements OnInit {
+  
   @ViewChild('modalAddEdit') addEditModal: ModalDirective;
   public pageIndex: number = 1;
   public pageSize: number = 20;
@@ -72,6 +74,11 @@ export class UserComponent implements OnInit {
     this.dataservice.get('/api/appUser/detail/' + id)
       .subscribe((res: any) => {
         this.entity = res;
+        console.log(res);
+        for(let role of this.entity.Roles){
+          this.myRoles.push(role);
+        };
+        this.entity.BirthDay=moment(this.entity.BirthDay,'DD/MM/YYYY').format('DD/MM/YYYY');
       })
 
   }

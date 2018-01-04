@@ -10,6 +10,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { Daterangepicker } from 'ng2-daterangepicker';
 
+
 const userRoutes:Routes=[
   {path:'', redirectTo:'index', pathMatch:'full'},
   {path:'index', component:UserComponent}
@@ -23,10 +24,12 @@ const userRoutes:Routes=[
     PaginationModule,
     ModalModule.forRoot(),
     MultiselectDropdownModule,
-    Daterangepicker
+    Daterangepicker,
+
   ],
   providers:[DataService,
-    NotificationService
+    NotificationService,
+ 
   ],
   declarations: [UserComponent]
 })
