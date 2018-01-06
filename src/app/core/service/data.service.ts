@@ -41,7 +41,7 @@ export class DataService {
   postFile(uri:string,data?:any){
     let newHeaders= new Headers();
     newHeaders.append("Authorization","Bearer "+this.authentication.getUserLogin().access_token)
-    return this._http.get(SystemConstant.BASE_API+uri,{headers:newHeaders}).map(this.extractData)
+    return this._http.post(SystemConstant.BASE_API+uri,data,{headers:newHeaders}).map(this.extractData)
   }
   private extractData(res:Response){
    let body = res.json();
