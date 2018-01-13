@@ -59,7 +59,6 @@ export class FunctionComponent implements OnInit {
     if(valid){
       if(this.editFlag){
         this._dataService.put("/api/function/update",JSON.stringify(this.entity)).subscribe(res=>{
-          this.search(event);
           this.addEditModal.hide();
           this._notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG)
         },error=>this._dataService.handleError(error))
