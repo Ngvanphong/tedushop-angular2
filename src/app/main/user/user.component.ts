@@ -23,8 +23,7 @@ export class UserComponent implements OnInit {
   public filter: string = '';
   public totalRows: number;
   public entity: any;
-
-  users: any;
+  public users: any;
   public allRoles:any[];
   public myRoles:any[];
   public roles:any[];
@@ -56,6 +55,9 @@ export class UserComponent implements OnInit {
     singleDatePicker:true,
     drops: 'up'
 };
+public selectedDate(event:any){
+  this.entity.BirthDay = moment(event.end._d,'DD/MM/YYYY').format('DD/MM/YYYY');
+}
   private load() {
     this.dataservice.get('/api/appUser/getlistpaging?page=' + this.pageIndex + '&pageSize=' + this.pageSize + '&filter=' + this.filter)
       .subscribe((res: any) => {
