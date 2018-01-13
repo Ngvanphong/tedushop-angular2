@@ -24,8 +24,8 @@
         "../node_modules/animate.min.css/animate.min.css",
         "../src/assets/css/custom.css",
         "../node_modules/alertifyjs/build/css/alertify.min.css",
-        "../node_modules/alertifyjs/build/css/themes/default.min.css"
-   
+        "../node_modules/alertifyjs/build/css/themes/default.min.css",
+        "../node_modules/angular-tree-component/dist/angular-tree-component.css"
    
       ],
       "scripts": [
