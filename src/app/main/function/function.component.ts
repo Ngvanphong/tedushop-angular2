@@ -13,11 +13,14 @@ import{MessageConstant} from '../../core/common/message.constant'
 export class FunctionComponent implements OnInit {
   @ViewChild(TreeComponent) private treeFunction: TreeComponent
   @ViewChild('addEditModal') private addEditModal:ModalDirective;
+  @ViewChild('permissionModal') private permissionModal:ModalDirective;
   public _functions: any[];
   public _functionHierachy: any[];
   public filter: string = "";
   public entity:any;
   public editFlag:boolean;
+  public _permission:any[];
+  public functionId : string;
   constructor(private _dataService: DataService, private utilityService: UtilityService, private _notificationService:NotificationService) { }
 
   ngOnInit() {
@@ -73,6 +76,26 @@ export class FunctionComponent implements OnInit {
     }
 
  }
+ public showPermission(id:any){
+    this.functionId =id
+    this._dataService.get("/api/appRole/getAllPermission?functionId="+id).subscribe((res:any[])=>{
+      this._permission=res;
+      this.permissionModal.show();
+    },error=>this._dataService.handleError(error))
+ }
+
+ public savePermission(valid: boolean, _permission: any[]) {
+  if (valid) {
+    var data = {
+      Permissions: this._permission,
+      FunctionId: this.functionId
+    }
+    this._dataService.post('/api/appRole/savePermission', JSON.stringify(data)).subscribe((response: any) => {
+      this._notificationService.printSuccesMessage(response)
+      this.permissionModal.hide();
+    }, error => this._dataService.handleError(error));
+  }
+}
 
 
 }

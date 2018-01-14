@@ -38,10 +38,10 @@
             <td>{{role.Name}}</td>
             <td>{{role.Description}}</td>
             <td>
-              <button class="btn btn-primary" (click)="EditRoleModal(role.Id)">
+              <button *ngIf="role.Name!='Admin'" class="btn btn-primary" (click)="EditRoleModal(role.Id)">
                 <i class="fa fa-pencil-square-o"></i>
               </button>
-              <button class="btn btn-danger" (click)="deleteRole(role.Id)">
+              <button  *ngIf="role.Name!='Admin'" class="btn btn-danger" (click)="deleteRole(role.Id)">
                 <i class="fa fa-trash"></i>
               </button>
             </td>
