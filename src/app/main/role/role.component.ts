@@ -17,7 +17,7 @@ export class RoleComponent implements OnInit {
   public filter:string='';
   public totalRows:number;
   public entity:any;
-  roles:any;
+  public roles:any;
 
   constructor(private dataservice: DataService, private _notification:NotificationService) { }
 
