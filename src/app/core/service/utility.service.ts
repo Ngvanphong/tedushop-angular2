@@ -20,7 +20,7 @@ export class UtilityService {
   navigate(path: string) {
     this._router.navigate([path]);
   }
- * navigateToLogin() {
+  navigateToLogin() {
     this._router.navigate([UrlConstant.lOGIN]);
   }
   

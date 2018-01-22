@@ -3,8 +3,10 @@ import { DataService } from '../../core/service/data.service'
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { SystemConstant } from '../../core/common/system.constant';
 import { NotificationService } from '../../core/service/notification.service';
+import { UtilityService  } from '../../core/service/utility.service';
 import { MessageConstant } from '../../core/common/message.constant';
 import {UploadService} from '../../core/service/upload.service'
+import {AuthenService} from '../../core/service/authen.service'
 
 declare var moment;
 @Component({
@@ -29,9 +31,15 @@ export class UserComponent implements OnInit {
   public roles:any[];
   public BaseUrlImage:string=SystemConstant.BASE_API;
 
-  constructor(private dataservice: DataService, private _notification: NotificationService , private _uploadservice:UploadService) { }
+  constructor(private dataservice: DataService, private _notification: NotificationService ,
+     private _uploadservice:UploadService,public _authenService:AuthenService,
+     private _utilityService:UtilityService) {
+      
+      }
 
   ngOnInit() {
+    if(this._authenService.checkAccess('USER')==false)
+         this._utilityService.navigateToLogin();
     this.load();
     this.loadRole();
   }
@@ -76,6 +84,7 @@ public selectedDate(event:any){
     this.entity = {};
   }
   private loadUser(id: any) {
+    this.entity={};
     this.dataservice.get('/api/appUser/detail/' + id)
       .subscribe((res: any) => {
         this.entity = res;

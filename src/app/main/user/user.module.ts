@@ -4,6 +4,7 @@ import { UserComponent } from './user.component';
 import {Routes,RouterModule} from '@angular/router';
 import {DataService} from '../../core/service/data.service';
 import {NotificationService} from '../../core/service/notification.service';
+import {UtilityService} from '../../core/service/utility.service';
 import {FormsModule} from '@angular/forms' ;
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -30,7 +31,8 @@ const userRoutes:Routes=[
   ],
   providers:[DataService,
     NotificationService,
-    UploadService
+    UploadService,
+    UtilityService
   ],
   declarations: [UserComponent]
 })

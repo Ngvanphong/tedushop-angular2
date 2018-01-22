@@ -5,6 +5,7 @@ import { UtilityService } from '../../core/service/utility.service';
 import { NotificationService } from '../../core/service/notification.service'
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import{MessageConstant} from '../../core/common/message.constant'
+
 @Component({
   selector: 'app-function',
   templateUrl: './function.component.html',
@@ -21,7 +22,10 @@ export class FunctionComponent implements OnInit {
   public editFlag:boolean;
   public _permission:any[];
   public functionId : string;
-  constructor(private _dataService: DataService, private utilityService: UtilityService, private _notificationService:NotificationService) { }
+  constructor(private _dataService: DataService, private utilityService: UtilityService,
+     private _notificationService:NotificationService) {
+
+      }
 
   ngOnInit() {
     this.search(event);
@@ -40,6 +44,7 @@ export class FunctionComponent implements OnInit {
       }, error => this._dataService.handleError(error));
   };
   public showEdit(id: string) {
+    this.entity={};
     this._dataService.get("/api/function/detail/"+id).subscribe((res:any)=>{
       this.entity=res;
       this.editFlag=true;
