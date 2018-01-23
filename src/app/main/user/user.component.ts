@@ -105,19 +105,18 @@ public selectedDate(event:any){
 
   saveChange(valid: boolean) {
     if (valid) {
-      this.entity.Roles=this.myRoles;
-      let fi=this.avatar.nativeElement;
-      if(fi.files.length>0){
-        this._uploadservice.postWithFile("/api/upload/saveImage", null, fi.files)
-        .then((imageUrl:string)=>{
-            this.entity.Avatar=imageUrl;
-        }).then(()=>{
-          this.saveData();
-        });
-      }
-      else{
+     this.entity.Roles=this.myRoles;
+     let fi=this.avatar.nativeElement;
+     if(fi.files.length>0){
+      this._uploadservice.postWithFile("/api/upload/saveImage", null, fi.files).then((imageUrl:string)=>{
+        this.entity.Avatar=imageUrl;
+      }).then(()=>{
         this.saveData();
-      }
+      })
+     }
+    else{
+      this.saveData();
+    }
     }
   }
   private saveData(){
