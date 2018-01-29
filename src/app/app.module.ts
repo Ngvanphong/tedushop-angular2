@@ -8,9 +8,10 @@ import {MainModule} from './main/main.module';
 import {AuthGuard} from './core/guards/auth.guard';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

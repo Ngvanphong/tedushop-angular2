@@ -4,12 +4,15 @@ import { MainComponent } from './main.component';
 import {mainRoutes} from './main.routes';
 import{RouterModule} from '@angular/router';
 import {UserModule} from './user/user.module';
-
+import {SlidebarMenuComponent} from '../../app/share/slidebar-menu/slidebar-menu.component';
+import {TopbarMenuComponent} from '../../app/share/topbar-menu/topbar-menu.component';
+import {DataService} from '../../app/core/service/data.service'
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(mainRoutes)
   ],
-  declarations: [MainComponent]
+  providers:[DataService],
+  declarations: [MainComponent,SlidebarMenuComponent,TopbarMenuComponent]
 })
 export class MainModule { }
