@@ -7,11 +7,13 @@ import {LoginModule} from './login/login.module';
 import {MainModule} from './main/main.module';
 import {AuthGuard} from './core/guards/auth.guard';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { SimpleTinyComponent } from './share/simple-tiny/simple-tiny.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    SimpleTinyComponent,
   ],
   imports: [
     BrowserModule,
