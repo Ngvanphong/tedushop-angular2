@@ -10,7 +10,7 @@ import {DataService} from '../../core/service/data.service';
 import {UploadService} from '../../core/service/upload.service';
 import {NotificationService} from '../../core/service/notification.service';
 import {UtilityService} from '../../core/service/utility.service'
-
+import {SimpleTinyComponent} from '../../share/simple-tiny/simple-tiny.component'
 const productRouter:Routes=[
   {path:'', redirectTo:'index', pathMatch:'full'},
   {path:'index',component:ProductComponent}
@@ -23,10 +23,11 @@ const productRouter:Routes=[
     PaginationModule,
     MultiselectDropdownModule,
     Daterangepicker,
+    ModalModule.forRoot(),
 
   ],
   providers:[DataService, NotificationService,UploadService,UtilityService],
 
-  declarations: [ProductComponent]
+  declarations: [ProductComponent,SimpleTinyComponent]
 })
 export class ProductModule { }

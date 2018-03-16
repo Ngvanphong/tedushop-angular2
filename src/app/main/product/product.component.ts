@@ -35,6 +35,8 @@ export class ProductComponent implements OnInit {
      }
 
   ngOnInit() {
+    this.loadProductCategories();
+    this.search();
   }
 
   public createAlias(){

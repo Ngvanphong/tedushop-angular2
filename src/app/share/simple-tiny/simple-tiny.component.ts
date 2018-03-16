@@ -1,4 +1,4 @@
-import { Component, OnDestroy, AfterViewInit, EventEmitter, Input, Output, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit, EventEmitter, Input, Output, ViewChild, AfterViewChecked} from '@angular/core';
 
 @Component({
   selector: 'app-simple-tiny',
