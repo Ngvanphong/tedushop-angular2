@@ -58,7 +58,7 @@ export class ProductComponent implements OnInit {
   }
 
   public showAdd(){
-    this.entity={Content:''};
+   this.entity={Content:'',ThumbnailImage:''};
     this.addEditModal.show();
   }
 
@@ -87,24 +87,27 @@ export class ProductComponent implements OnInit {
   }
   public saveChanges(valid:boolean){
     if (valid){
-      let fi:any[]= this.thumbnailImage.nativeElement;
-      if(fi.length>0){
-        this.uploadService.postWithFile('/api/upload/saveImage?type=product',null,fi).then((imgUrl:any)=>{
-          this.entity.entity.ThumbnailImage=imgUrl;
+      let fi= this.thumbnailImage.nativeElement;
+      if(fi.files.length>0){
+        this.uploadService.postWithFile('/api/upload/saveImage?type=product',null,fi.files).then((imgUrl:any)=>{
+          this.entity.ThumbnailImage=imgUrl;
         }).then(()=>{
             this.saveData();
+            
         })
       }
       else{
         this.saveData();
+        
       }
     }
   }
 
   private saveData(){
     if(this.entity.ID==undefined){
-      this._dataService.post('/api/product/add').subscribe((res:any)=>{
+      this._dataService.post('/api/product/add',JSON.stringify(this.entity)).subscribe((res:any)=>{
         this.search();
+        this.thumbnailImage.nativeElement.value="";
         this.addEditModal.hide();
         this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
       },error=>this._dataService.handleError(error));
@@ -112,6 +115,7 @@ export class ProductComponent implements OnInit {
     else {
       this._dataService.put('/api/product/update', JSON.stringify(this.entity)).subscribe((response: any) => {
         this.search();
+        this.thumbnailImage.nativeElement.value="";
         this.addEditModal.hide();
         this.notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
       }, error => this._dataService.handleError(error));
@@ -129,5 +133,6 @@ export class ProductComponent implements OnInit {
     this.entity.Content = e;
   }
 
+ 
 
 }
