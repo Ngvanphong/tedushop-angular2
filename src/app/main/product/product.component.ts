@@ -23,10 +23,11 @@ export class ProductComponent implements OnInit {
   public pageIndex:number=1;
   public pageSize: number = 20;
   public pageDisplay: number = 10;
-  public filter: string = '';
+  public filterKeyword: string = '';
   public filterCategoryID: number;
   public products: any[];
   public productCategories: any[];
+  public checkedItems:any[]=[];
 
   constructor(public _authenService: AuthenService,  private _dataService: DataService,
     private notificationService: NotificationService,
@@ -44,7 +45,7 @@ export class ProductComponent implements OnInit {
   }
 
   public search() {
-    this._dataService.get('/api/product/getall?page=' + this.pageIndex + '&pageSize=' + this.pageSize + '&keyword=' + this.filter + '&categoryId=' + this.filterCategoryID)
+    this._dataService.get('/api/product/getall?page=' + this.pageIndex + '&pageSize=' + this.pageSize + '&keyword=' + this.filterKeyword + '&categoryId=' + this.filterCategoryID)
       .subscribe((response: any) => {
         this.products = response.Items;
         this.pageIndex = response.PageIndex;
@@ -52,7 +53,7 @@ export class ProductComponent implements OnInit {
   }
 
   public reset(){
-    this.filter='';
+    this.filterKeyword='';
     this.filterCategoryID=null;
     this.search();
   }
@@ -131,6 +132,23 @@ export class ProductComponent implements OnInit {
 
   public keyupHandlerContentFunction(e: any) {
     this.entity.Content = e;
+  }
+
+  public deleteMulti(){
+    this.checkedItems=this.products.filter(x=>x.Checked==true);
+    let checkedIds:any[]=[];
+    for(var i=0;i<this.checkedItems.length;++i){
+      checkedIds.push(this.checkedItems[i]["ID"]);
+    };
+    this.notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG,()=>{
+      this._dataService.delete('/api/product/deletemulti','checkedProducts',JSON.stringify(checkedIds)).subscribe((res)=>{
+        this.notificationService.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
+        this.search();
+      },error=>this._dataService.handleError(error));
+    });
+
+
+
   }
 
  
