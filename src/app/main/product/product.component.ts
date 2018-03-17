@@ -59,7 +59,7 @@ export class ProductComponent implements OnInit {
   }
 
   public showAdd(){
-   this.entity={Content:'',ThumbnailImage:''};
+    this.entity={Content:'',ThumbnailImage:''};
     this.addEditModal.show();
   }
 
