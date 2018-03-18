@@ -1,18 +1,18 @@
-import { Component, OnDestroy, AfterViewInit, EventEmitter, Input, Output, ViewChild, AfterViewChecked} from '@angular/core';
+import { Component, OnDestroy, AfterViewInit, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-simple-tiny',
   templateUrl: './simple-tiny.component.html',
   styleUrls: ['./simple-tiny.component.css']
 })
-export class SimpleTinyComponent implements AfterViewChecked, OnDestroy {
-  @Input() elementId: String;
+export class SimpleTinyComponent implements  AfterViewInit, OnDestroy {
+
+ @Input() elementId: String;
   @Output() onEditorKeyup = new EventEmitter<any>();
   @Input() content: string;
   editor;
-  constructor() { }
 
-  ngAfterViewChecked(){
+  ngAfterViewInit() {
     tinymce.baseURL = "/assets/tinymce";
     tinymce.init({
 
@@ -37,9 +37,7 @@ export class SimpleTinyComponent implements AfterViewChecked, OnDestroy {
 
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     tinymce.remove(this.editor);
-
   }
-
 }

@@ -59,8 +59,8 @@ export class ProductComponent implements OnInit {
   }
 
   public showAdd(){
-    this.entity={Content:'',ThumbnailImage:''};
     this.addEditModal.show();
+    this.entity={Content:'',ThumbnailImage:''};
   }
 
   public showEdit(id: string) {
@@ -131,7 +131,7 @@ export class ProductComponent implements OnInit {
   }
 
   public keyupHandlerContentFunction(e: any) {
-    this.entity.Content = e;
+      this.entity.Content = e;
   }
 
   public deleteMulti(){
