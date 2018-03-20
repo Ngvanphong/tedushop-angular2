@@ -17,10 +17,7 @@
 
 <div class="clearfix"></div>
 
-<div class="row">
-
-  <div class="clearfix"></div>
-
+  <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
       <ul class="nav navbar-right panel_toolbox">
@@ -31,17 +28,15 @@
       <div class="clearfix"></div>
     </div>
     <div class="x_content">
-
       <tree-root #treeProductCategory [nodes]="_productCategoryHierachy">
         <ng-template #treeNodeTemplate let-node let-index="index">
           <span>{{ node.data.Name }}</span>
-          <button class="btn btn-xs btn-primary" (click)="showEdit(node.data.ID)"> <i class="fa fa-pencil-square-o"  aria-hidden="true"></i></button>
-          <button class="btn btn-xs btn-danger" (click)="delete(node.data.ID)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+          <button class="btn btn-primary" (click)="showEdit(node.data.ID)"> <i class="fa fa-pencil-square-o"  aria-hidden="true"></i></button>
+          <button class="btn btn-danger" (click)="delete(node.data.ID)"><i class="fa fa-trash" aria-hidden="true"></i></button>
         </ng-template>
       </tree-root>
     </div>
   </div>
-
 </div>
 <div bsModal #addEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
   aria-hidden="true">
@@ -60,7 +55,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Tên</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
               <input type="hidden" [(ngModel)]="entity.ID" name="id" />
-              <input type="text" #name="ngModel" (keypress)="createAlias()" [(ngModel)]="entity.Name" required minlength="3" name="name" class="form-control" />
+              <input type="text" #name="ngModel" (keyup)="createAlias(name.value)" [(ngModel)]="entity.Name" required minlength="3" name="name" class="form-control" />
               <small [hidden]="name.valid || (name.pristine && !addEditForm.submitted)" class="text-danger">
                 Bạn phải nhập tên ít nhất 3 ký tự
               </small>
@@ -79,7 +74,7 @@
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Mô tả</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-              <textarea type="text" #name="ngModel" [(ngModel)]="entity.Description" name="description" class="form-control"></textarea>
+              <textarea type="text" #name2="ngModel" [(ngModel)]="entity.Description" name="description" class="form-control"></textarea>
             </div>
           </div>
           <div class="form-group">
@@ -108,7 +103,6 @@
               <p class="help-block label label-danger"> chỉ hỗ trợ định dạng *.png, *.jpg, *.jpeg </p>
               <input type="hidden" [(ngModel)]="entity.Image" name="image" />
             </div>
-
             <div class="col-md-3 col-sm-3 col-xs-12" *ngIf="entity.Image">
               <img [src]="entity.Image" width="128" />
             </div>

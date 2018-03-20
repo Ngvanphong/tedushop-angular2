@@ -64,7 +64,7 @@ export class UserComponent implements OnInit {
     drops: 'up'
 };
 public selectedDate(event:any){
-  this.entity.BirthDay = moment(event.end._d,'DD/MM/YYYY').format('DD/MM/YYYY');
+  this.entity.BirthDay = moment(event.end._d).format('DD/MM/YYYY');
 }
   private load() {
     this.dataservice.get('/api/appUser/getlistpaging?page=' + this.pageIndex + '&pageSize=' + this.pageSize + '&filter=' + this.filter)
@@ -89,7 +89,7 @@ public selectedDate(event:any){
       .subscribe((res: any) => {
         this.entity = res;
         this.myRoles=[];
-        this.entity.BirthDay=moment(this.entity.BirthDay,'DD/MM/YYYY').format('DD/MM/YYYY');
+        this.entity.BirthDay=moment(this.entity.BirthDay,'MM/DD/YYYY').format('MM/DD/YYYY');
         for(let role of this.entity.Roles){
           this.myRoles.push(role);
         };
@@ -134,6 +134,7 @@ public selectedDate(event:any){
       this.dataservice.post("/api/appUser/add", JSON.stringify(this.entity)).subscribe((res: any) => {
         this.load();
         this.addEditModal.hide();
+        this.avatar.nativeElement.value='';
         this._notification.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
 
       }, error => this.dataservice.handleError(error))
@@ -142,6 +143,7 @@ public selectedDate(event:any){
       this.dataservice.put("/api/appUser/update", JSON.stringify(this.entity)).subscribe((res: any) => {
         this.load();
         this.addEditModal.hide();
+        this.avatar.nativeElement.value='';
         this._notification.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
 
       }, error => this.dataservice.handleError(error))

@@ -30,8 +30,8 @@ export class ProductCategoryComponent implements OnInit {
     this.getListForDropdown();
   }
 
-  public createAlias(){
-    this.entity.Alias=this.utilitiService.MakeSeoTitle(this.entity.Name);
+  public createAlias(name:any){
+    this.entity.Alias=this.utilitiService.MakeSeoTitle(name);
   }
   // loadData
   public search(){
