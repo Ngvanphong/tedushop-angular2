@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {DataService} from '../../core/service/data.service';
-import{NotificationService} from '../../core/service/notification.service';
-import{UploadService} from '../../core/service/upload.service';
-import{UtilityService} from '../../core/service/utility.service';
-import {MessageConstant} from '../../core/common/message.constant';
-import{SystemConstant} from '../../core/common/system.constant';
-import {ModalDirective} from 'ngx-bootstrap';
-import {AuthenService} from '../../core/service/authen.service';
+import { DataService } from '../../core/service/data.service';
+import { NotificationService } from '../../core/service/notification.service';
+import { UploadService } from '../../core/service/upload.service';
+import { UtilityService } from '../../core/service/utility.service';
+import { MessageConstant } from '../../core/common/message.constant';
+import { SystemConstant } from '../../core/common/system.constant';
+import { ModalDirective } from 'ngx-bootstrap';
+import { AuthenService } from '../../core/service/authen.service';
 
 
 @Component({
@@ -15,33 +15,34 @@ import {AuthenService} from '../../core/service/authen.service';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-  @ViewChild('addEditModal') private addEditModal:ModalDirective;
+  @ViewChild('addEditModal') private addEditModal: ModalDirective;
   @ViewChild('thumbnailImage') private thumbnailImage;
-  public baseFolder:string=SystemConstant.BASE_API;
-  public entity:any;
-  public totalRow:number;
-  public pageIndex:number=1;
+  public baseFolder: string = SystemConstant.BASE_API;
+  public entity: any;
+  public totalRow: number;
+  public pageIndex: number = 1;
   public pageSize: number = 20;
   public pageDisplay: number = 10;
   public filterKeyword: string = '';
   public filterCategoryID: number;
   public products: any[];
   public productCategories: any[];
-  public checkedItems:any[]=[];
-
-  constructor(public _authenService: AuthenService,  private _dataService: DataService,
+  public checkedItems: any[] = [];
+  private flagInitTiny: boolean = true;
+  
+  constructor(public _authenService: AuthenService, private _dataService: DataService,
     private notificationService: NotificationService,
-    private utilityService: UtilityService, private uploadService: UploadService ) {
+    private utilityService: UtilityService, private uploadService: UploadService) {
 
-     }
+  }
 
   ngOnInit() {
     this.loadProductCategories();
     this.search();
   }
 
-  public createAlias(){
-    this.entity.Alias=this.utilityService.MakeSeoTitle(this.entity.Name);
+  public createAlias() {
+    this.entity.Alias = this.utilityService.MakeSeoTitle(this.entity.Name);
   }
 
   public search() {
@@ -51,34 +52,47 @@ export class ProductComponent implements OnInit {
         this.pageIndex = response.PageIndex;
       }, error => this._dataService.handleError(error));
   }
-
-  public reset(){
-    this.filterKeyword='';
-    this.filterCategoryID=null;
+  public reset() {
+    this.filterKeyword = '';
+    this.filterCategoryID = null;
     this.search();
   }
-
-  public showAdd(){
+  public showAdd() {
+    this.entity = { Content: '', ThumbnailImage: '' };
+    if (this.flagInitTiny) {
+      tinymce.on('init', () => {
+      });
+      this.flagInitTiny = false;
+    }
+    else {
+      tinymce.activeEditor.setContent('');
+    }
     this.addEditModal.show();
-    this.entity={Content:'',ThumbnailImage:''};
   }
-
   public showEdit(id: string) {
     this._dataService.get('/api/product/detail/' + id).subscribe((response: any) => {
       this.entity = response;
+      if (this.flagInitTiny) {
+        tinymce.on('init', () => {
+        });
+      this.flagInitTiny = false;
+      }
+      else {
+        tinymce.activeEditor.setContent(this.entity.Content)
+      }
       this.addEditModal.show();
     }, error => this._dataService.handleError(error));
   }
 
-  private deleteConfirm(id:string){
+  private deleteConfirm(id: string) {
     this._dataService.delete('/api/product/delete', 'id', id).subscribe((response: any) => {
       this.notificationService.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
       this.search();
     }, error => this._dataService.handleError(error));
   }
 
-  public delete(id:string){
-    this.notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG,()=>this.deleteConfirm(id));
+  public delete(id: string) {
+    this.notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG, () => this.deleteConfirm(id));
   }
 
   private loadProductCategories() {
@@ -86,42 +100,42 @@ export class ProductComponent implements OnInit {
       this.productCategories = response;
     }, error => this._dataService.handleError(error));
   }
-  public saveChanges(valid:boolean){
-    if (valid){
-      let fi= this.thumbnailImage.nativeElement;
-      if(fi.files.length>0){
-        this.uploadService.postWithFile('/api/upload/saveImage?type=product',null,fi.files).then((imgUrl:any)=>{
-          this.entity.ThumbnailImage=imgUrl;
-        }).then(()=>{
-            this.saveData();
-            
+  public saveChanges(valid: boolean) {
+    if (valid) {
+      let fi = this.thumbnailImage.nativeElement;
+      if (fi.files.length > 0) {
+        this.uploadService.postWithFile('/api/upload/saveImage?type=product', null, fi.files).then((imgUrl: any) => {
+          this.entity.ThumbnailImage = imgUrl;
+        }).then(() => {
+          this.saveData();
+
         })
       }
-      else{
+      else {
         this.saveData();
-        
+
       }
     }
   }
 
-  private saveData(){
-    if(this.entity.ID==undefined){
-      this._dataService.post('/api/product/add',JSON.stringify(this.entity)).subscribe((res:any)=>{
+  private saveData() {
+    if (this.entity.ID == undefined) {
+      this._dataService.post('/api/product/add', JSON.stringify(this.entity)).subscribe((res: any) => {
         this.search();
-        this.thumbnailImage.nativeElement.value="";
+        this.thumbnailImage.nativeElement.value = "";
         this.addEditModal.hide();
         this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
-      },error=>this._dataService.handleError(error));
+      }, error => this._dataService.handleError(error));
     }
     else {
       this._dataService.put('/api/product/update', JSON.stringify(this.entity)).subscribe((response: any) => {
         this.search();
-        this.thumbnailImage.nativeElement.value="";
+        this.thumbnailImage.nativeElement.value = "";
         this.addEditModal.hide();
         this.notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
       }, error => this._dataService.handleError(error));
     }
-    
+
 
   }
 
@@ -131,26 +145,27 @@ export class ProductComponent implements OnInit {
   }
 
   public keyupHandlerContentFunction(e: any) {
-      this.entity.Content = e;
+    this.entity.Content = e;
   }
 
-  public deleteMulti(){
-    this.checkedItems=this.products.filter(x=>x.Checked==true);
-    let checkedIds:any[]=[];
-    for(var i=0;i<this.checkedItems.length;++i){
+  public deleteMulti() {
+    this.checkedItems = this.products.filter(x => x.Checked == true);
+    let checkedIds: any[] = [];
+    for (var i = 0; i < this.checkedItems.length; ++i) {
       checkedIds.push(this.checkedItems[i]["ID"]);
     };
-    this.notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG,()=>{
-      this._dataService.delete('/api/product/deletemulti','checkedProducts',JSON.stringify(checkedIds)).subscribe((res)=>{
+    this.notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG, () => {
+      this._dataService.delete('/api/product/deletemulti', 'checkedProducts', JSON.stringify(checkedIds)).subscribe((res) => {
         this.notificationService.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
         this.search();
-      },error=>this._dataService.handleError(error));
+      }, error => this._dataService.handleError(error));
     });
 
 
-
   }
 
- 
+
+
+
 
 }
