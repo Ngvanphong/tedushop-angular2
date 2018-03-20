@@ -29,7 +29,7 @@ export class ProductComponent implements OnInit {
   public productCategories: any[];
   public checkedItems: any[] = [];
   private flagInitTiny: boolean = true;
-  
+
   constructor(public _authenService: AuthenService, private _dataService: DataService,
     private notificationService: NotificationService,
     private utilityService: UtilityService, private uploadService: UploadService) {
@@ -41,8 +41,8 @@ export class ProductComponent implements OnInit {
     this.search();
   }
 
-  public createAlias() {
-    this.entity.Alias = this.utilityService.MakeSeoTitle(this.entity.Name);
+  public createAlias(name:any) {
+    this.entity.Alias = this.utilityService.MakeSeoTitle(name);
   }
 
   public search() {
@@ -163,9 +163,4 @@ export class ProductComponent implements OnInit {
 
 
   }
-
-
-
-
-
 }
