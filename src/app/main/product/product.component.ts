@@ -29,6 +29,13 @@ export class ProductComponent implements OnInit {
   public productCategories: any[];
   public checkedItems: any[] = [];
   private flagInitTiny: boolean = true;
+  /*Image Management*/
+  @ViewChild('imageManageModal') private imageManageModal:ModalDirective;
+  @ViewChild('imagePath') private imagePath;
+  public imageEntity:any={};
+  public productImages:any[];
+  public image:any={};
+
 
   constructor(public _authenService: AuthenService, private _dataService: DataService,
     private notificationService: NotificationService,
@@ -160,7 +167,62 @@ export class ProductComponent implements OnInit {
         this.search();
       }, error => this._dataService.handleError(error));
     });
+  }
 
+  /*Imange Management*/
+  public showImageManage(id:any){
+    this.imageEntity={
+      ProductId:id
+    };
+    this.loadProductImage(id);
+    this.imageManageModal.show();
+    
+  };
+  private loadProductImage(id:any){
+      this._dataService.get('/api/productImage/getall?productId='+id).subscribe((res)=>{
+        this.productImages=res;
+      },error=>this._dataService.handleError(error));
+  }
+
+  public saveProductImage(valid:boolean){
+    if(valid){
+      var fi =this.imagePath.nativeElement;
+      if(fi.files.length>0){
+        this.uploadService.postWithFile('/api/upload/saveImage?type=product',null,fi.files).then((imageUrl)=>{
+          this.imageEntity.Path=imageUrl;
+          this._dataService.post('/api/productImage/add',JSON.stringify(this.imageEntity)).subscribe((res)=>{
+            this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
+            this.imagePath.nativeElement.value='';
+            this.loadProductImage(this.imageEntity.ProductId);
+            this.imageEntity.Caption='';
+          })
+        })
+      }
+
+    }
+  }
+  public deleteImage(imageId:string){
+    this.notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG,()=>{
+      this._dataService.delete('/api/productImage/delete','id',imageId.toString()).subscribe((res)=>{
+        this.notificationService.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
+        this.loadProductImage(this.imageEntity.ProductId);
+      },error=>this._dataService.handleError(error));
+    })
 
   }
+/* Code method API put image for product flow ImageId */
+  
+ public updateImage(imageId:any,caption:any){
+    for(let item of this.productImages){
+          if(item.ID==imageId){
+           this.image=item;
+           this.image.Caption=caption;
+          }
+    }
+    this._dataService.put('/api/productImage/update',JSON.stringify(this.image)).subscribe((res)=>{
+      this.notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
+    })
+    
+
+ }
 }
