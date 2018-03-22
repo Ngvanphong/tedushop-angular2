@@ -5,5 +5,5 @@ export class MessageConstant{
     public static CREATE_OK_MEG="Thêm mới thành công";
     public static UPDATE_OK_MEG="Cập nhật thành công";
     public static DELETE_OK_MEG="Xóa thành công";
-
+    public static FORBIDDEN="Xóa thành công";
 }

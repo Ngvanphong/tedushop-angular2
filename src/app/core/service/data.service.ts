@@ -38,6 +38,18 @@ export class DataService {
     this.headers.append("Authorization","Bearer "+this.authentication.getUserLogin().access_token)
     return this._http.delete(SystemConstant.BASE_API+uri+"?"+key+"="+id,{headers:this.headers}).map(this.extractData)
   };
+  deleteWithMultiParams(uri: string, params) {
+    this.headers.delete('Authorization');
+
+    this.headers.append("Authorization", "Bearer " + this.authentication.getUserLogin().access_token);
+    var paramStr: string = '';
+    for (let param in params) {
+      paramStr += param + "=" + params[param] + '&';
+    }
+    return this._http.delete(SystemConstant.BASE_API + uri + "/?" + paramStr, { headers: this.headers })
+      .map(this.extractData);
+
+  }
   postFile(uri:string,data?:any){
     let newHeaders= new Headers();
     newHeaders.append("Authorization","Bearer "+this.authentication.getUserLogin().access_token)
@@ -49,19 +61,23 @@ export class DataService {
   }
   public handleError(error: any) {
     if (error.status == 401) {
-        localStorage.removeItem(SystemConstant.CURRENT_USER);
-        this.notification.printErrorMessage(MessageConstant.LOGIN_AGAIN_MEG);
-        this.utility.navigateToLogin();
+      localStorage.removeItem(SystemConstant.CURRENT_USER);
+      this.notification.printErrorMessage(MessageConstant.LOGIN_AGAIN_MEG);
+      this.utility.navigateToLogin();
+    }
+    else if (error.status == 403) {
+      localStorage.removeItem(SystemConstant.CURRENT_USER);
+      this.notification.printErrorMessage(MessageConstant.FORBIDDEN);
+      this.utility.navigateToLogin();
     }
     else {
-        let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : 'Lỗi hệ thống';
-        this.notification.printErrorMessage(errMsg);
-
-        return Observable.throw(errMsg);
+      let errMsg = JSON.parse(error._body).Message;
+      this.notification.printErrorMessage(errMsg);
+      return Observable.throw(errMsg);
     }
 
-}
+
+  }
 }
 
 

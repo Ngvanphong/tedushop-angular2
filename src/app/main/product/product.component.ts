@@ -21,7 +21,7 @@ export class ProductComponent implements OnInit {
   public entity: any;
   public totalRow: number;
   public pageIndex: number = 1;
-  public pageSize: number = 20;
+  public pageSize: number = 10;
   public pageDisplay: number = 10;
   public filterKeyword: string = '';
   public filterCategoryID: number;
@@ -35,6 +35,15 @@ export class ProductComponent implements OnInit {
   public imageEntity:any={};
   public productImages:any[];
   public image:any={};
+/*Quantity Management*/
+  @ViewChild('quantityManageModal') private quantityManageModal:ModalDirective;
+  public quantityEntity:any={};
+  public productQuantities:any[];
+  public sizeId: number = null;
+  public colorId: number = null;
+  public colors: any[];
+  public sizes: any[];
+
 
 
   constructor(public _authenService: AuthenService, private _dataService: DataService,
@@ -46,6 +55,7 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     this.loadProductCategories();
     this.search();
+    console.log(this.totalRow)
   }
 
   public createAlias(name:any) {
@@ -57,6 +67,7 @@ export class ProductComponent implements OnInit {
       .subscribe((response: any) => {
         this.products = response.Items;
         this.pageIndex = response.PageIndex;
+        this.totalRow=response.TotalRows;
       }, error => this._dataService.handleError(error));
   }
   public reset() {
@@ -223,6 +234,77 @@ export class ProductComponent implements OnInit {
       this.notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
     })
     
-
  }
+
+/*Quantity management */
+
+private loadColors(){
+  this._dataService.get('/api/productQuantity/getcolors').subscribe((res)=>{
+      this.colors=res;
+  },error=>this._dataService.handleError(error));
+}
+private loadSizes(){
+  this._dataService.get('/api/productQuantity/getsizes').subscribe((res)=>{
+    this.sizes=res;
+  },error=>this._dataService.handleError(error));
+}
+private loadProductQuatity(id:any){
+  this._dataService.get('/api/productQuantity/getall?productId='+id+ '&sizeId=' + this.sizeId + '&colorId=' + this.colorId).subscribe((res)=>{
+    this.productQuantities=res;
+  },error=>this._dataService.handleError(error));
+}
+
+public showQuantityManage(productId:any){
+  this.quantityEntity={
+    ProductId:productId,
+  }
+  this.loadColors();
+  this.loadSizes();
+  this.loadProductQuatity(productId);
+  this.quantityManageModal.show();
+  
+}
+
+public saveProductQuantity(valid:boolean){
+  this._dataService.post('/api/productQuantity/add',JSON.stringify(this.quantityEntity)).subscribe(res=>{
+    this.loadProductQuatity(this.quantityEntity.ProductId);
+    this.quantityEntity={
+      ProductId:this.quantityEntity.ProductId,
+    }
+    this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
+  })
+}
+
+public deleteQuantity(productId:any,colorId:any,sizeId:any){
+  let prama:any={
+    "productId": productId, "sizeId": sizeId, "colorId": colorId
+  }
+  this.notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG,()=>{
+    this._dataService.deleteWithMultiParams('/api/productQuantity/delete',prama).subscribe((res)=>{
+      this.notificationService.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
+      this.loadProductQuatity(productId);
+    },error=>this._dataService.handleError(error));
+  })
+}
+
+/* Create API update quatity for product*/
+public item:any={}
+public updateQuantity(productId:any,colorId:number,sizeId:number,count:any){
+  let prama:any={
+    "productId": productId, "sizeId": sizeId, "colorId": colorId
+  }
+  for(let item of this.productQuantities){
+    if(item.SizeId==sizeId&&item.ColorId==colorId){
+      this.item=item;
+      this.item.Quantity=Number.parseInt(count);
+    };
+  this._dataService.put('/api/productQuantity/update',JSON.stringify(this.item)).subscribe((res)=>{
+    this.notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
+  })
+  }
+  
+}
+
+
+
 }
