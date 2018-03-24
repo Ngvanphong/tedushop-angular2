@@ -8,7 +8,8 @@ export const mainRoutes:Routes=[
     {path:'role',loadChildren:'./role/role.module#RoleModule'},
     {path:'function',loadChildren:'./function/function.module#FunctionModule'},
     {path:'product-category',loadChildren:'./product-category/product-category.module#ProductCategoryModule'},
-    {path:'product',loadChildren:'./product/product.module#ProductModule'}
+    {path:'product',loadChildren:'./product/product.module#ProductModule'},
+    {path:'order',loadChildren:'./order/order.module#OrderModule'}
 
   ]}
 ]

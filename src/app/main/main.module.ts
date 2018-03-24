@@ -6,7 +6,7 @@ import{RouterModule} from '@angular/router';
 import {UserModule} from './user/user.module';
 import {SlidebarMenuComponent} from '../../app/share/slidebar-menu/slidebar-menu.component';
 import {TopbarMenuComponent} from '../../app/share/topbar-menu/topbar-menu.component';
-import {DataService} from '../../app/core/service/data.service'
+import {DataService} from '../../app/core/service/data.service';
 @NgModule({
   imports: [
     CommonModule,

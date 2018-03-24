@@ -89,7 +89,7 @@ public selectedDate(event:any){
       .subscribe((res: any) => {
         this.entity = res;
         this.myRoles=[];
-        this.entity.BirthDay=moment(this.entity.BirthDay,'MM/DD/YYYY').format('MM/DD/YYYY');
+        this.entity.BirthDay=moment(this.entity.BirthDay,'MM/DD/YYYY').format('DD/MM/YYYY');
         for(let role of this.entity.Roles){
           this.myRoles.push(role);
         };

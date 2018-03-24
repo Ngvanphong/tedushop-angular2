@@ -55,7 +55,6 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     this.loadProductCategories();
     this.search();
-    console.log(this.totalRow)
   }
 
   public createAlias(name:any) {
