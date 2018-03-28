@@ -5,9 +5,9 @@ import { SystemConstant } from '../../core/common/system.constant';
 import { NotificationService } from '../../core/service/notification.service';
 import { UtilityService  } from '../../core/service/utility.service';
 import { MessageConstant } from '../../core/common/message.constant';
-import {UploadService} from '../../core/service/upload.service'
-import {AuthenService} from '../../core/service/authen.service'
-
+import {UploadService} from '../../core/service/upload.service';
+import {AuthenService} from '../../core/service/authen.service';
+import {NgForm} from '@angular/forms';
 declare var moment;
 @Component({
   selector: 'app-user',
@@ -112,8 +112,8 @@ public selectedDate(event:any){
     })
   }
 
-  saveChange(valid: boolean) {
-    if (valid) {
+  saveChange(form:NgForm) {
+    if (form.valid) {
       this.entity.Roles=this.myRoles;
       let fi=this.avatar.nativeElement;
       if(fi.files.length>0){
@@ -121,19 +121,20 @@ public selectedDate(event:any){
         .then((imageUrl:string)=>{
             this.entity.Avatar=imageUrl;
         }).then(()=>{
-          this.saveData();
+          this.saveData(form);
         });
       }
       else{
-        this.saveData();
+        this.saveData(form);
       }
     }
   }
-  private saveData(){
+  private saveData(form:NgForm){
     if (this.entity.Id == undefined) {
       this.dataservice.post("/api/appUser/add", JSON.stringify(this.entity)).subscribe((res: any) => {
         this.load();
         this.addEditModal.hide();
+        form.resetForm();
         this.avatar.nativeElement.value='';
         this._notification.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
 
@@ -143,6 +144,7 @@ public selectedDate(event:any){
       this.dataservice.put("/api/appUser/update", JSON.stringify(this.entity)).subscribe((res: any) => {
         this.load();
         this.addEditModal.hide();
+        form.resetForm();
         this.avatar.nativeElement.value='';
         this._notification.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
 
