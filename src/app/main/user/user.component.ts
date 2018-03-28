@@ -117,7 +117,7 @@ public selectedDate(event:any){
       this.entity.Roles=this.myRoles;
       let fi=this.avatar.nativeElement;
       if(fi.files.length>0){
-        this._uploadservice.postWithFile("/api/upload/saveImage", null, fi.files)
+        this._uploadservice.postWithFile("/api/upload/saveImage?type=avatar", null, fi.files)
         .then((imageUrl:string)=>{
             this.entity.Avatar=imageUrl;
         }).then(()=>{
