@@ -28,7 +28,7 @@ export class FunctionComponent implements OnInit {
       }
 
   ngOnInit() {
-    this.search(event);
+    this.search();
   }
  public addEdit(){
    this.entity={};
@@ -36,7 +36,7 @@ export class FunctionComponent implements OnInit {
   this.editFlag=false;
  }
 
-  public search(event) {
+  public search() {
     this._dataService.get('/api/function/getall?filter=' + this.filter)
       .subscribe((response: any[]) => {
         this._functions = response.filter(x => x.ParentId == null);
@@ -55,11 +55,11 @@ export class FunctionComponent implements OnInit {
   private deleteConfirm(id:any){
     this._dataService.delete("/api/function/delete",'id',id).subscribe((res:any)=>{
       this._notificationService.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
-      this.search(event);
-    },error=>this._dataService.handleError(error))
+    },error=>this._dataService.handleError(error));
+    this.search();
   }
   public delete(id:any){
-    this._notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG,()=>this.deleteConfirm(id))
+    this._notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG,()=>this.deleteConfirm(id))   
   }
 
  public saveChanges(valid:boolean){
@@ -68,13 +68,14 @@ export class FunctionComponent implements OnInit {
         this._dataService.put("/api/function/update",JSON.stringify(this.entity)).subscribe(res=>{
           this.addEditModal.hide();
           this._notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG)
+          this.search();
         },error=>this._dataService.handleError(error))
       }
       else{
         this._dataService.post("/api/function/add",JSON.stringify(this.entity)).subscribe(res=>{
           this.addEditModal.hide();
           this._notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
-          this.search(event);
+          this.search();
         },error=>this._dataService.handleError(error))
 
       }
