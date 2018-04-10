@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   login(){
     this.loading=true;
     this._authentication.login(this.model.username,this.model.password).subscribe(data=>{
-    this._Utility.navigate(UrlConstant.HOME)
+    this._Utility.navigate(UrlConstant.PRODUCT)
     },error=>{
       this._notification.printErrorMessage(MessageConstant.SYSTEM_ERROR_MEG);
       this.loading=false;
