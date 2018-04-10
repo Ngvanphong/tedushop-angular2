@@ -5,12 +5,7 @@
 
   <div class="title_right">
     <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-      <div class="input-group">
-        <input type="text" name="filter" [(ngModel)]="filter" (keyup.enter)="search()" class="form-control" placeholder="Tìm kiếm...">
-        <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Tìm!</button>
-        </span>
-      </div>
+          <input type="text" name="filter" [(ngModel)]="filter" (keyup)="search()" class="form-control" placeholder="Tìm kiếm...">
     </div>
   </div>
 </div>
@@ -117,9 +112,9 @@
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Mô tả SEO</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-              <input type="text" #metaDescription="ngModel" [(ngModel)]="entity.MetaDescription" required minlength="3" name="metaDescription"
+              <input type="text" #metaDescription="ngModel" [(ngModel)]="entity.MetaDiscription" required minlength="3" name="metaDiscription"
                 class="form-control" />
-              <small [hidden]="metaDescription.valid || (metaDescription.pristine && !addEditForm.submitted)" class="text-danger">
+              <small [hidden]="metaDescription.valid || (metaDiscription.pristine && !addEditForm.submitted)" class="text-danger">
                 Bạn phải nhập tên ít nhất 3 ký tự
               </small>
             </div>

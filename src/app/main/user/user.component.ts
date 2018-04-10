@@ -20,7 +20,7 @@ export class UserComponent implements OnInit {
   @ViewChild('modalAddEdit') addEditModal: ModalDirective;
   @ViewChild('avatar') avatar;
   public pageIndex: number = 1;
-  public pageSize: number = 20;
+  public pageSize: number = 10;
   public pageDisplay: number = 10;
   public filter: string = '';
   public totalRows: number;
