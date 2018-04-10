@@ -55,8 +55,8 @@ export class FunctionComponent implements OnInit {
   private deleteConfirm(id:any){
     this._dataService.delete("/api/function/delete",'id',id).subscribe((res:any)=>{
       this._notificationService.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
-    },error=>this._dataService.handleError(error));
-    this.search();
+      this.search();
+    },error=>this._dataService.handleError(error)); 
   }
   public delete(id:any){
     this._notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG,()=>this.deleteConfirm(id))   

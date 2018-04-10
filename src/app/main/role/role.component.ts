@@ -60,7 +60,7 @@ export class RoleComponent implements OnInit {
   private deleteConfirm(id:any){
          this.dataservice.delete("/api/appRole/delete","id",id).subscribe((res:Response)=>{
         this._notification.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
-        this.load();
+        this.load();     
       })
   }
 

@@ -3,7 +3,10 @@
     <div class="col-md-3 left_col">
       <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-          <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+          <a href="index.html" class="site_title">
+            <i class="fa fa-paw"></i>
+            <span>Gentelella Alela!</span>
+          </a>
         </div>
 
         <div class="clearfix"></div>
@@ -11,7 +14,7 @@
         <!-- menu profile quick info -->
         <div class="profile clearfix">
           <div class="profile_pic">
-            <img src="{{user.avatar}}" alt="..." class="img-circle profile_img">
+            <img src="{{BaseUri + user.avatar}}" alt="..." class="img-circle profile_img">
           </div>
           <div class="profile_info">
             <span>Xin chào,</span>
@@ -47,7 +50,7 @@
     </div>
 
     <!-- top navigation -->
-   <app-topbar-menu></app-topbar-menu>
+    <app-topbar-menu></app-topbar-menu>
     <!-- /top navigation -->
 
     <!-- page content -->
@@ -61,7 +64,8 @@
     <!-- footer content -->
     <footer>
       <div class="pull-right">
-        Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+        Gentelella - Bootstrap Admin Template by
+        <a href="https://colorlib.com">Colorlib</a>
       </div>
       <div class="clearfix"></div>
     </footer>
