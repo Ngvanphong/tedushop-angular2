@@ -16,17 +16,17 @@ import { AuthenService } from '../../core/service/authen.service';
 })
 export class ProductComponent implements OnInit {
   @ViewChild('addEditModal') private addEditModal: ModalDirective;
-  @ViewChild('thumbnailImage') private thumbnailImage;
   public baseFolder: string = SystemConstant.BASE_API;
   public entity: any;
   public totalRow: number;
   public pageIndex: number = 1;
-  public pageSize: number = 10;
+  public pageSize: number = 20;
   public pageDisplay: number = 10;
   public filterKeyword: string = '';
-  public filterCategoryID: number;
+  public filterCategoryID: number=null;
+  public filterHotPromotion:string=""
   public products: any[];
-  public productCategories: any[];
+  public productCategories: any[]
   public checkedItems: any[] = [];
   private flagInitTiny: boolean = true;
   /*Image Management*/
@@ -62,8 +62,10 @@ export class ProductComponent implements OnInit {
   }
 
   public search() {
-    this._dataService.get('/api/product/getall?page=' + this.pageIndex + '&pageSize=' + this.pageSize + '&keyword=' + this.filterKeyword + '&categoryId=' + this.filterCategoryID)
+    this._dataService.get('/api/product/getall?page=' + this.pageIndex + '&pageSize=' + this.pageSize + '&keyword=' + this.filterKeyword + '&categoryId=' 
+    + this.filterCategoryID + '&filterHotPromotion='+this.filterHotPromotion)
       .subscribe((response: any) => {
+        console.log(response);
         this.products = response.Items;
         this.pageIndex = response.PageIndex;
         this.totalRow=response.TotalRows;
@@ -71,11 +73,12 @@ export class ProductComponent implements OnInit {
   }
   public reset() {
     this.filterKeyword = '';
+    this.filterHotPromotion='';
     this.filterCategoryID = null;
     this.search();
   }
   public showAdd() {
-    this.entity = { Content: '', ThumbnailImage: '' };
+    this.entity = { Content: '' };
     if (this.flagInitTiny) {
       tinymce.on('init', () => {
       });
@@ -117,29 +120,12 @@ export class ProductComponent implements OnInit {
       this.productCategories = response;
     }, error => this._dataService.handleError(error));
   }
+  
+
   public saveChanges(valid: boolean) {
-    if (valid) {
-      let fi = this.thumbnailImage.nativeElement;
-      if (fi.files.length > 0) {
-        this.uploadService.postWithFile('/api/upload/saveImage?type=product', null, fi.files).then((imgUrl: any) => {
-          this.entity.ThumbnailImage = imgUrl;
-        }).then(() => {
-          this.saveData();
-
-        })
-      }
-      else {
-        this.saveData();
-
-      }
-    }
-  }
-
-  private saveData() {
     if (this.entity.ID == undefined) {
       this._dataService.post('/api/product/add', JSON.stringify(this.entity)).subscribe((res: any) => {
         this.search();
-        this.thumbnailImage.nativeElement.value = "";
         this.addEditModal.hide();
         this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
       }, error => this._dataService.handleError(error));
@@ -147,7 +133,6 @@ export class ProductComponent implements OnInit {
     else {
       this._dataService.put('/api/product/update', JSON.stringify(this.entity)).subscribe((response: any) => {
         this.search();
-        this.thumbnailImage.nativeElement.value = "";
         this.addEditModal.hide();
         this.notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
       }, error => this._dataService.handleError(error));
@@ -237,11 +222,7 @@ export class ProductComponent implements OnInit {
 
 /*Quantity management */
 
-private loadColors(){
-  this._dataService.get('/api/productQuantity/getcolors').subscribe((res)=>{
-      this.colors=res;
-  },error=>this._dataService.handleError(error));
-}
+
 private loadSizes(){
   this._dataService.get('/api/productQuantity/getsizes').subscribe((res)=>{
     this.sizes=res;
@@ -257,7 +238,6 @@ public showQuantityManage(productId:any){
   this.quantityEntity={
     ProductId:productId,
   }
-  this.loadColors();
   this.loadSizes();
   this.loadProductQuatity(productId);
   this.quantityManageModal.show();

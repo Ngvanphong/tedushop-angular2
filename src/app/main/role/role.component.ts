@@ -47,7 +47,6 @@ export class RoleComponent implements OnInit {
     .subscribe((res:any)=>{
       this.entity=res;
     })
-    console.log(this.entity)
 }
   EditRoleModal(id:any){
     this.loadRole(id);

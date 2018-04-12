@@ -27,7 +27,7 @@ export class ProductCategoryComponent implements OnInit {
 
   ngOnInit() {
     this.search();
-    this.getListForDropdown();
+   
   }
 
   public createAlias(name:any){
@@ -41,11 +41,7 @@ export class ProductCategoryComponent implements OnInit {
     },error=>this._dataService.handleError(error));
   }
 
-  public getListForDropdown(){
-    this._dataService.get('/api/productCategory/getallhierachy').subscribe((res:any[])=>{
-      this._productCategories=res;
-    },error=>this._dataService.handleError(error));
-  }
+ 
 // show add
   public showAdd(){
     this.entity={};
