@@ -229,7 +229,7 @@ private loadSizes(){
   },error=>this._dataService.handleError(error));
 }
 private loadProductQuatity(id:any){
-  this._dataService.get('/api/productQuantity/getall?productId='+id+ '&sizeId=' + this.sizeId + '&colorId=' + this.colorId).subscribe((res)=>{
+  this._dataService.get('/api/productQuantity/getall?productId='+id+ '&sizeId=' + this.sizeId).subscribe((res)=>{
     this.productQuantities=res;
   },error=>this._dataService.handleError(error));
 }
@@ -254,9 +254,9 @@ public saveProductQuantity(valid:boolean){
   })
 }
 
-public deleteQuantity(productId:any,colorId:any,sizeId:any){
+public deleteQuantity(productId:any,sizeId:any){
   let prama:any={
-    "productId": productId, "sizeId": sizeId, "colorId": colorId
+    "productId": productId, "sizeId": sizeId, 
   }
   this.notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG,()=>{
     this._dataService.deleteWithMultiParams('/api/productQuantity/delete',prama).subscribe((res)=>{
@@ -268,19 +268,19 @@ public deleteQuantity(productId:any,colorId:any,sizeId:any){
 
 /* Create API update quatity for product*/
 public item:any={}
-public updateQuantity(productId:any,colorId:number,sizeId:number,count:any){
+public updateQuantity(productId:any,sizeId:number,count:any){
   let prama:any={
-    "productId": productId, "sizeId": sizeId, "colorId": colorId
+    "productId": productId, "sizeId": sizeId,
   }
   for(let item of this.productQuantities){
-    if(item.SizeId==sizeId&&item.ColorId==colorId){
+    if(item.SizeId==sizeId){
       this.item=item;
       this.item.Quantity=Number.parseInt(count);
     };
+  }
   this._dataService.put('/api/productQuantity/update',JSON.stringify(this.item)).subscribe((res)=>{
     this.notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
   })
-  }
   
 }
 
