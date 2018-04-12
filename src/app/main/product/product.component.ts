@@ -23,22 +23,22 @@ export class ProductComponent implements OnInit {
   public pageSize: number = 20;
   public pageDisplay: number = 10;
   public filterKeyword: string = '';
-  public filterCategoryID: number=null;
-  public filterHotPromotion:string=""
+  public filterCategoryID: number = null;
+  public filterHotPromotion: string = "";
   public products: any[];
   public productCategories: any[]
   public checkedItems: any[] = [];
   private flagInitTiny: boolean = true;
   /*Image Management*/
-  @ViewChild('imageManageModal') private imageManageModal:ModalDirective;
+  @ViewChild('imageManageModal') private imageManageModal: ModalDirective;
   @ViewChild('imagePath') private imagePath;
-  public imageEntity:any={};
-  public productImages:any[];
-  public image:any={};
-/*Quantity Management*/
-  @ViewChild('quantityManageModal') private quantityManageModal:ModalDirective;
-  public quantityEntity:any={};
-  public productQuantities:any[];
+  public imageEntity: any = {};
+  public productImages: any[];
+  public image: any = {};
+  /*Quantity Management*/
+  @ViewChild('quantityManageModal') private quantityManageModal: ModalDirective;
+  public quantityEntity: any = {};
+  public productQuantities: any[];
   public sizeId: number = null;
   public colorId: number = null;
   public colors: any[];
@@ -57,23 +57,23 @@ export class ProductComponent implements OnInit {
     this.search();
   }
 
-  public createAlias(name:any) {
+  public createAlias(name: any) {
     this.entity.Alias = this.utilityService.MakeSeoTitle(name);
   }
 
   public search() {
-    this._dataService.get('/api/product/getall?page=' + this.pageIndex + '&pageSize=' + this.pageSize + '&keyword=' + this.filterKeyword + '&categoryId=' 
-    + this.filterCategoryID + '&filterHotPromotion='+this.filterHotPromotion)
+    this._dataService.get('/api/product/getall?page=' + this.pageIndex + '&pageSize=' + this.pageSize + '&keyword=' + this.filterKeyword + '&categoryId='
+      + this.filterCategoryID + '&filterHotPromotion=' + this.filterHotPromotion)
       .subscribe((response: any) => {
         console.log(response);
         this.products = response.Items;
         this.pageIndex = response.PageIndex;
-        this.totalRow=response.TotalRows;
+        this.totalRow = response.TotalRows;
       }, error => this._dataService.handleError(error));
   }
   public reset() {
     this.filterKeyword = '';
-    this.filterHotPromotion='';
+    this.filterHotPromotion = '';
     this.filterCategoryID = null;
     this.search();
   }
@@ -95,7 +95,7 @@ export class ProductComponent implements OnInit {
       if (this.flagInitTiny) {
         tinymce.on('init', () => {
         });
-      this.flagInitTiny = false;
+        this.flagInitTiny = false;
       }
       else {
         tinymce.activeEditor.setContent(this.entity.Content)
@@ -120,7 +120,7 @@ export class ProductComponent implements OnInit {
       this.productCategories = response;
     }, error => this._dataService.handleError(error));
   }
-  
+
 
   public saveChanges(valid: boolean) {
     if (this.entity.ID == undefined) {
@@ -165,124 +165,133 @@ export class ProductComponent implements OnInit {
   }
 
   /*Imange Management*/
-  public showImageManage(id:any){
-    this.imageEntity={
-      ProductId:id
+  public showImageManage(id: any) {
+    this.imageEntity = {
+      ProductId: id
     };
     this.loadProductImage(id);
     this.imageManageModal.show();
-    
+
   };
-  private loadProductImage(id:any){
-      this._dataService.get('/api/productImage/getall?productId='+id).subscribe((res)=>{
-        this.productImages=res;
-      },error=>this._dataService.handleError(error));
+  private loadProductImage(id: any) {
+    this._dataService.get('/api/productImage/getall?productId=' + id).subscribe((res) => {
+      this.productImages = res;
+    }, error => this._dataService.handleError(error));
   }
 
-  public saveProductImage(valid:boolean){
-    if(valid){
-      var fi =this.imagePath.nativeElement;
-      if(fi.files.length>0){
-        this.uploadService.postWithFile('/api/upload/saveImage?type=product',null,fi.files).then((imageUrl)=>{
-          this.imageEntity.Path=imageUrl;
-          this._dataService.post('/api/productImage/add',JSON.stringify(this.imageEntity)).subscribe((res)=>{
+  public saveProductImage(valid: boolean) {
+    if (valid) {
+      var fi = this.imagePath.nativeElement;
+      if (fi.files.length > 0) {
+        this.uploadService.postWithFile('/api/upload/saveImage?type=product', null, fi.files).then((imageUrl) => {
+          this.imageEntity.Path = imageUrl;
+          this._dataService.post('/api/productImage/add', JSON.stringify(this.imageEntity)).subscribe((res) => {
             this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
-            this.imagePath.nativeElement.value='';
+            this.imagePath.nativeElement.value = '';
             this.loadProductImage(this.imageEntity.ProductId);
-            this.imageEntity.Caption='';
+            this.imageEntity.Caption = '';
           })
         })
       }
 
     }
   }
-  public deleteImage(imageId:string){
-    this.notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG,()=>{
-      this._dataService.delete('/api/productImage/delete','id',imageId.toString()).subscribe((res)=>{
+  public deleteImage(imageId: string) {
+    this.notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG, () => {
+      this._dataService.delete('/api/productImage/delete', 'id', imageId.toString()).subscribe((res) => {
         this.notificationService.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
         this.loadProductImage(this.imageEntity.ProductId);
-      },error=>this._dataService.handleError(error));
+      }, error => this._dataService.handleError(error));
     })
 
   }
-/* Code method API put image for product flow ImageId */
-  
- public updateImage(imageId:any,caption:any){
-    for(let item of this.productImages){
-          if(item.ID==imageId){
-           this.image=item;
-           this.image.Caption=caption;
-          }
+  private thumbnailImage() {
+    this._dataService.put('/api/product/thumnailImage?productId=' + this.imageEntity.ProductId).subscribe((res) => {
+      this.search();
+    }, error => this._dataService.handleError(error));
+  }
+  public closePopupImage(){
+    this.thumbnailImage();
+    this.imageManageModal.hide();
+  }
+  /* Code method API put image for product flow ImageId */
+
+  public updateImage(imageId: any, caption: any) {
+    for (let item of this.productImages) {
+      if (item.ID == imageId) {
+        this.image = item;
+        this.image.Caption = caption;
+      }
     }
-    this._dataService.put('/api/productImage/update',JSON.stringify(this.image)).subscribe((res)=>{
+    this._dataService.put('/api/productImage/update', JSON.stringify(this.image)).subscribe((res) => {
       this.notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
     })
-    
- }
 
-/*Quantity management */
-
-
-private loadSizes(){
-  this._dataService.get('/api/productQuantity/getsizes').subscribe((res)=>{
-    this.sizes=res;
-  },error=>this._dataService.handleError(error));
-}
-private loadProductQuatity(id:any){
-  this._dataService.get('/api/productQuantity/getall?productId='+id+ '&sizeId=' + this.sizeId).subscribe((res)=>{
-    this.productQuantities=res;
-  },error=>this._dataService.handleError(error));
-}
-
-public showQuantityManage(productId:any){
-  this.quantityEntity={
-    ProductId:productId,
   }
-  this.loadSizes();
-  this.loadProductQuatity(productId);
-  this.quantityManageModal.show();
-  
-}
 
-public saveProductQuantity(valid:boolean){
-  this._dataService.post('/api/productQuantity/add',JSON.stringify(this.quantityEntity)).subscribe(res=>{
-    this.loadProductQuatity(this.quantityEntity.ProductId);
-    this.quantityEntity={
-      ProductId:this.quantityEntity.ProductId,
+  /*Quantity management */
+
+
+  private loadSizes() {
+    this._dataService.get('/api/productQuantity/getsizes').subscribe((res) => {
+      this.sizes = res;
+    }, error => this._dataService.handleError(error));
+  }
+  private loadProductQuatity(id: any) {
+    this._dataService.get('/api/productQuantity/getall?productId=' + id + '&sizeId=' + this.sizeId).subscribe((res) => {
+      this.productQuantities = res;
+    }, error => this._dataService.handleError(error));
+  }
+
+  public showQuantityManage(productId: any) {
+    this.quantityEntity = {
+      ProductId: productId,
     }
-    this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
-  })
-}
+    this.loadSizes();
+    this.loadProductQuatity(productId);
+    this.quantityManageModal.show();
 
-public deleteQuantity(productId:any,sizeId:any){
-  let prama:any={
-    "productId": productId, "sizeId": sizeId, 
   }
-  this.notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG,()=>{
-    this._dataService.deleteWithMultiParams('/api/productQuantity/delete',prama).subscribe((res)=>{
-      this.notificationService.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
-      this.loadProductQuatity(productId);
-    },error=>this._dataService.handleError(error));
-  })
-}
 
-/* Create API update quatity for product*/
-public item:any={}
-public updateQuantity(productId:any,sizeId:number,count:any){
-  let prama:any={
-    "productId": productId, "sizeId": sizeId,
+  public saveProductQuantity(valid: boolean) {
+    this._dataService.post('/api/productQuantity/add', JSON.stringify(this.quantityEntity)).subscribe(res => {
+      this.loadProductQuatity(this.quantityEntity.ProductId);
+      this.quantityEntity = {
+        ProductId: this.quantityEntity.ProductId,
+      }
+      this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
+    }, error => this._dataService.handleError(error));
   }
-  for(let item of this.productQuantities){
-    if(item.SizeId==sizeId){
-      this.item=item;
-      this.item.Quantity=Number.parseInt(count);
-    };
+
+  public deleteQuantity(productId: any, sizeId: any) {
+    let prama: any = {
+      "productId": productId, "sizeId": sizeId,
+    }
+    this.notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG, () => {
+      this._dataService.deleteWithMultiParams('/api/productQuantity/delete', prama).subscribe((res) => {
+        this.notificationService.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
+        this.loadProductQuatity(productId);
+      }, error => this._dataService.handleError(error));
+    })
   }
-  this._dataService.put('/api/productQuantity/update',JSON.stringify(this.item)).subscribe((res)=>{
-    this.notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
-  })
-  
-}
+
+  /* Create API update quatity for product*/
+  public item: any = {}
+  public updateQuantity(productId: any, sizeId: number, count: any) {
+    let prama: any = {
+      "productId": productId, "sizeId": sizeId,
+    }
+    for (let item of this.productQuantities) {
+      if (item.SizeId == sizeId) {
+        this.item = item;
+        this.item.Quantity = Number.parseInt(count);
+      };
+    }
+    this._dataService.put('/api/productQuantity/update', JSON.stringify(this.item)).subscribe((res) => {
+      this.notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
+    })
+
+  }
 
 
 
