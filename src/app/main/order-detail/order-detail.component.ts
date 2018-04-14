@@ -50,12 +50,12 @@ export class OrderDetailComponent implements OnInit {
   public goBack() {
     this.utilityService.navigate('/main/order/index');
   }
-  public exportToExcel(){
-    this._dataService.get('/api/Order/exportExcel/'+this.orderId.toString()).subscribe((res:any)=>{
-      console.log(res);
-      window.open(SystemConstant.BASE_API+res.Message);
-    },error=>this._dataService.handleError(error));
-  }
+  // public exportToExcel(){
+  //   this._dataService.get('/api/Order/exportExcel/'+this.orderId.toString()).subscribe((res:any)=>{
+  //     console.log(res);
+  //     window.open(SystemConstant.BASE_API+res.Message);
+  //   },error=>this._dataService.handleError(error));
+  // }
  
 
 }

@@ -16,9 +16,9 @@
         <li>
           <button class="btn btn-primary" (click)="goBack()">Quay lại</button>
         </li>
-         <li>
+         <!-- <li>
           <button class="btn btn-success" (click)="exportToExcel()">Xuất ra Excel</button>
-        </li>
+        </li> -->
       </ul>
       <div class="clearfix"></div>
     </div>
@@ -97,8 +97,12 @@
                       Sản phẩm
                     </th>
                     <th>
+                        Kích thước
+                      </th>
+                    <th>
                       Số lượng
                     </th>
+                    
                     <th>Giá</th>
                     <th>Thành tiền</th>
                   </tr>
@@ -109,14 +113,17 @@
                       {{item.Product.Name}}
                     </td>
                     <td>
+                        {{item.Size.Name}}
+                      </td>
+                    <td>
                       {{item.Quantity | number}}
                     </td>
                     <td>{{item.Price | number}}</td>
                     <td>{{item.Price * item.Quantity | number}}</td>
                   </tr>
                   <tr>
-                      <td colspan="4">
-                        Tổng tiền: {{totalAmount | number}}
+                      <td colspan="5">
+                        Tổng tiền: {{totalAmount | number}} VND
                     </td>
                   </tr>
                 </tbody>
