@@ -94,49 +94,57 @@
 
           </div>
         </div>
-        <div class="form-group">
-          <div class="col-md-10 col-sm-12 col-xs-12">
-
-          </div>
-          <div class="col-md-2 col-sm-12 col-xs-12">
+        <div class="form-group">              
+          <div class="pull-right ">
             <button type="button" (click)="showAddDetail()" class="btn btn-success">Thêm chi tiết</button>
-          </div>
+          </div>       
         </div>
-        <table class="table" *ngIf="orderDetails && orderDetails.length > 0">
-          <thead>
-            <tr>
-              <th>
-                Sản phẩm
-              </th>            
-              <th>
-                Số lượng
-              </th>
-              <th>Giá</th>
-              <th>Thành tiền</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of orderDetails">
-              <td>
-                {{item.Product.Name}}
-              </td>            
-              <td>
-                {{item.Quantity | number}}
-              </td>
-              <td>{{item.Price | number}}</td>
-              <td>{{item.Price * item.Quantity | number}}</td>
-              <td>
-                <button class="btn btn-danger" (click)="deleteDetail(item)"><i class="fa fa-trash" aria-hidden="true"></i></button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div  class="form-group">
+            <div class="col-md-offset-3 col-md-10 col-sm-12 col-xs-12">
+                <table class="table" *ngIf="orderDetails && orderDetails.length > 0">
+                  <thead>
+                    <tr>
+                      <th>
+                        Sản phẩm
+                      </th> 
+                      <th>
+                          Kích thước
+                        </th>            
+                      <th>
+                        Số lượng
+                      </th>
+                      <th>Giá</th>
+                      <th>Thành tiền</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of orderDetails">
+                      <td>
+                        {{item.Product.Name}}
+                      </td>
+                      <td>
+                          {{item.Size.Name}}
+                        </td>              
+                      <td>
+                        {{item.Quantity | number}}
+                      </td>
+                      <td>{{item.Price | number}}</td>
+                      <td>{{item.Price * item.Quantity | number}}</td>
+                      <td>
+                        <button class="btn btn-danger" (click)="deleteDetail(item)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>     
+        </div>
+          
         <div class="ln_solid"></div>
         <div class="form-group">
-          <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-            <button type="submit" class="btn btn-success" [disabled]="!addEditForm.form.valid">Cập nhật</button>
-          </div>
+            <div class="pull-right ">        
+                <button type="submit" class="btn btn-success" [disabled]="!addEditForm.form.valid">Cập nhật</button>
+            </div>
         </div>
 
       </form>

@@ -65,10 +65,12 @@ export class OrderAddComponent implements OnInit {
     }
 
   }
+  
   public saveOrderDetail(valid: boolean) {
     if (valid) {
 
       this.detailEntity.Product = this.products.find(x => x.ID == this.detailEntity.ProductID);
+      this.detailEntity.Size=this.sizes.find(x=>x.ID==this.detailEntity.SizeId);
       let flag: boolean = true;
       for (var item of this.orderDetails) {
         if (item.ProductID == this.detailEntity.ProductID && item.SizeId == this.detailEntity.SizeId) {
@@ -85,7 +87,7 @@ export class OrderAddComponent implements OnInit {
       this.detailEntity = {
         ProductID: 0,
         Quantity: 0,
-        Price: 0
+        Price: 0,
       };
     }
   }
