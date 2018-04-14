@@ -81,7 +81,7 @@ public selectedDate(event:any){
   }
   addEdit() {
     this.addEditModal.show();
-    this.entity = {};
+    this.entity = {Status:true};
   }
   private loadUser(id: any) {
     this.entity={};

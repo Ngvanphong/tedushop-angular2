@@ -56,7 +56,7 @@
           <tr *ngFor="let item of orders">
             <td>{{item.CustomerName}}</td>
             <td>{{item.CustomerMobile}}</td>
-            <td>{{item.CreatedDate | date}}</td>
+            <td>{{item.CreateDate | date}}</td>
             <td *ngIf="item.Status==true">Hợp lệ</td>
              <td *ngIf="item.Status==false">Không hợp lệ</td>
             <td>

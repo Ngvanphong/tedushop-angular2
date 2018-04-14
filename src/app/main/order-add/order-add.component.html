@@ -107,7 +107,7 @@
             <tr>
               <th>
                 Sản phẩm
-              </th>
+              </th>            
               <th>
                 Số lượng
               </th>
@@ -120,7 +120,7 @@
             <tr *ngFor="let item of orderDetails">
               <td>
                 {{item.Product.Name}}
-              </td>
+              </td>            
               <td>
                 {{item.Quantity | number}}
               </td>
@@ -169,19 +169,7 @@
                 Bạn phải nhập tên ít nhất 3 ký tự
               </small>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Màu sắc</label>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-              <select class="form-control" required #colorId="ngModel" name="colorId" [(ngModel)]="detailEntity.ColorId">
-                <option value="">--Chọn màu--</option>
-                <option *ngFor="let x of colors" [value]="x.ID">{{x.Name}}</option>
-              </select>
-              <small [hidden]="colorId.valid || (colorId.pristine && !detailForm.submitted)" class="text-danger">
-                Bạn phải chọn màu sắc
-              </small>
-            </div>
-          </div>
+          </div>        
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Cỡ</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
@@ -216,7 +204,7 @@
           <div class="ln_solid"></div>
           <div class="form-group">
             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-              <button type="button" (click)="addEditModal.hide()" class="btn btn-primary">Hủy bỏ</button>
+              <button type="button" (click)="addEditModal.hide()" class="btn btn-primary">Đóng</button>
               <button type="submit" class="btn btn-success" [disabled]="!detailForm.form.valid">Cập nhật</button>
             </div>
           </div>

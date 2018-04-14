@@ -15,8 +15,6 @@ export class OrderAddComponent implements OnInit {
   @ViewChild('addEditModal') public addEditModal: ModalDirective;
   public entity: any = { Status: true };
   public sizeId: number = null;
-  public colorId: number = null;
-  public colors: any[];
   public sizes: any[];
   public products: any[];
   public orderDetails: any[] = [];
@@ -33,8 +31,7 @@ export class OrderAddComponent implements OnInit {
   ngOnInit() {
   }
   /*Product quantity management */
-    public showAddDetail() {
-    this.loadColors();
+  public showAddDetail() {
     this.loadSizes();
     this.loadProducts();
     this.addEditModal.show();
@@ -45,11 +42,7 @@ export class OrderAddComponent implements OnInit {
       this.products = response;
     }, error => this._dataService.handleError(error));
   }
-  public loadColors() {
-    this._dataService.get('/api/productQuantity/getcolors').subscribe((response: any[]) => {
-      this.colors = response;
-    }, error => this._dataService.handleError(error));
-  }
+
   public loadSizes() {
     this._dataService.get('/api/productQuantity/getsizes').subscribe((response: any[]) => {
       this.sizes = response;
@@ -74,9 +67,21 @@ export class OrderAddComponent implements OnInit {
   }
   public saveOrderDetail(valid: boolean) {
     if (valid) {
-      this.addEditModal.hide();
+
       this.detailEntity.Product = this.products.find(x => x.ID == this.detailEntity.ProductID);
-      this.orderDetails.push(this.detailEntity);
+      let flag: boolean = true;
+      for (var item of this.orderDetails) {
+        if (item.ProductID == this.detailEntity.ProductID && item.SizeId == this.detailEntity.SizeId) {
+          flag = false;
+        }
+      }
+      if (flag == true) {
+        this.orderDetails.push(this.detailEntity);
+      }
+      else {
+        this.notificationService.printErrorMessage("Sản phẩm đã tồn tại")
+      }
+
       this.detailEntity = {
         ProductID: 0,
         Quantity: 0,
@@ -90,7 +95,6 @@ export class OrderAddComponent implements OnInit {
     for (var index = 0; index < this.orderDetails.length; index++) {
       let orderDetail = this.orderDetails[index];
       if (orderDetail.ProductID == item.ProductID
-        && orderDetail.ColorId == item.ColorId
         && orderDetail.SizeId == item.SizeId) {
         this.orderDetails.splice(index, 1);
       }

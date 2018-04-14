@@ -31,7 +31,7 @@ export class FunctionComponent implements OnInit {
     this.search();
   }
  public addEdit(){
-   this.entity={};
+   this.entity={Status:true};
    this.addEditModal.show();
   this.editFlag=false;
  }

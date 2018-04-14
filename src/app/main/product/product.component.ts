@@ -7,6 +7,7 @@ import { MessageConstant } from '../../core/common/message.constant';
 import { SystemConstant } from '../../core/common/system.constant';
 import { ModalDirective } from 'ngx-bootstrap';
 import { AuthenService } from '../../core/service/authen.service';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -78,7 +79,7 @@ export class ProductComponent implements OnInit {
     this.search();
   }
   public showAdd() {
-    this.entity = { Content: '' };
+    this.entity = { Content: '' ,Status:true};
     if (this.flagInitTiny) {
       tinymce.on('init', () => {
       });
@@ -122,24 +123,30 @@ export class ProductComponent implements OnInit {
   }
 
 
-  public saveChanges(valid: boolean) {
-    if (this.entity.ID == undefined) {
-      this._dataService.post('/api/product/add', JSON.stringify(this.entity)).subscribe((res: any) => {
-        this.search();
-        this.addEditModal.hide();
-        this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
-      }, error => this._dataService.handleError(error));
+  public saveChanges(form: NgForm) {
+    if(form.valid==true){
+      if (this.entity.ID == undefined) {
+        this._dataService.post('/api/product/add', JSON.stringify(this.entity)).subscribe((res: any) => {
+          this.search();
+          this.addEditModal.hide();
+          this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
+          form.resetForm();
+        }, error => this._dataService.handleError(error));
+      }
+      else {
+        this._dataService.put('/api/product/update', JSON.stringify(this.entity)).subscribe((response: any) => {
+          this.search();
+          this.addEditModal.hide();
+          this.notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
+          form.resetForm();
+        }, error => this._dataService.handleError(error));
+      }
     }
-    else {
-      this._dataService.put('/api/product/update', JSON.stringify(this.entity)).subscribe((response: any) => {
-        this.search();
-        this.addEditModal.hide();
-        this.notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
-      }, error => this._dataService.handleError(error));
-    }
+    
 
 
   }
+ 
 
   public pageChanged(event: any): void {
     this.pageIndex = event.page;
@@ -225,7 +232,7 @@ export class ProductComponent implements OnInit {
     }
     this._dataService.put('/api/productImage/update', JSON.stringify(this.image)).subscribe((res) => {
       this.notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
-    })
+    },error=>this._dataService.handleError(error));
 
   }
 

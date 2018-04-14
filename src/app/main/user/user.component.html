@@ -39,17 +39,19 @@
         </thead>
         <tbody>
           <tr *ngFor="let user of users">
-            <td>{{user.Id}}</td>
+            <td>{{user.UserName}}</td>
             <td>{{user.FullName}}</td>
             <td>{{user.Email}}</td>
             <td>{{user.BirthDay | date:'dd/MM/yyyy'}}</td>
             <td>{{user.PhoneNumber}}</td>
-            <td><img class="small-image" width="128" [src]="BaseUrlImage + user.Avatar"/></td>
+            <td>
+              <img class="small-image" width="128" [src]="BaseUrlImage + user.Avatar" />
+            </td>
             <td *ngIf="_authenService.hasPermission('USER','update') && _authenService.hasPermission('USER','delete')">
-              <button *ngIf="_authenService.hasPermission('USER','update')" class="btn btn-primary" (click)="EditUserModal(user.Id)">
+              <button *ngIf="_authenService.hasPermission('USER','update')&&user.UserName!='ngvanphong'" class="btn btn-primary" (click)="EditUserModal(user.Id)">
                 <i class="fa fa-pencil-square-o"></i>
               </button>
-              <button  *ngIf="_authenService.hasPermission('USER','delete')" class="btn btn-danger" (click)="deleteUser(user.Id)">
+              <button *ngIf="_authenService.hasPermission('USER','delete')&&user.UserName!='ngvanphong'" class="btn btn-danger" (click)="deleteUser(user.Id)">
                 <i class="fa fa-trash"></i>
               </button>
             </td>
@@ -75,8 +77,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal form-label-left" novalidate #addEditForm="ngForm" (ngSubmit)="saveChange(addEditForm)"
-          *ngIf="entity">
+        <form class="form-horizontal form-label-left" novalidate #addEditForm="ngForm" (ngSubmit)="saveChange(addEditForm)" *ngIf="entity">
 
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Họ tên</label>
@@ -156,17 +157,19 @@
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Ngày sinh</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-              <input type="text" #Birthday="ngModel" daterangepicker [options]="dateOptions" [(ngModel)]="entity.BirthDay"  name="birthday"
-                class="form-control" (selected)="selectedDate($event)"/>
+              <input type="text" #Birthday="ngModel" daterangepicker [options]="dateOptions" [(ngModel)]="entity.BirthDay" name="birthday"
+                class="form-control" (selected)="selectedDate($event)" />
             </div>
           </div>
-           <div class="form-group">
+          <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Giới tính</label>
             <div class="col-md-6 col-sm-6 col-xs-12">
 
-              <input type="radio" (change)="selectGender($event)" #gender="ngModel" [checked]="entity.Gender=='True'" name="gender" [ngModel]="entity.Gender" value="True" required />              Nam
+              <input type="radio" (change)="selectGender($event)" #gender="ngModel" [checked]="entity.Gender=='True'" name="gender" [ngModel]="entity.Gender"
+                value="True" required /> Nam
 
-              <input type="radio" (change)="selectGender($event)"  #gender="ngModel" [checked]="entity.Gender=='False'" name="gender" [ngModel]="entity.Gender" value="False" />              Nữ
+              <input type="radio" (change)="selectGender($event)" #gender="ngModel" [checked]="entity.Gender=='False'" name="gender" [ngModel]="entity.Gender"
+                value="False" /> Nữ
 
             </div>
           </div>
