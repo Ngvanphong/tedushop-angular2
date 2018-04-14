@@ -169,7 +169,7 @@
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Sản phẩm</label>
             <div class="col-md-9 col-sm-9 col-xs-12">
-               <select class="form-control" name="productID" #productID="ngModel" required [(ngModel)]="detailEntity.ProductID">
+               <select class="form-control" name="productID" #productID="ngModel" required [(ngModel)]="detailEntity.ProductID" (change)="LoadPrice($event)">
                  <option value="">--Chọn sản phẩm--</option>
                   <option *ngFor="let x of products" [value]="x.ID">{{x.Name}}</option>
                 </select>

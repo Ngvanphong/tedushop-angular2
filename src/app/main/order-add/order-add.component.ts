@@ -34,6 +34,7 @@ export class OrderAddComponent implements OnInit {
   public showAddDetail() {
     this.loadSizes();
     this.loadProducts();
+
     this.addEditModal.show();
 
   }
@@ -65,12 +66,15 @@ export class OrderAddComponent implements OnInit {
     }
 
   }
-  
+  public LoadPrice($event) {
+    this.detailEntity.Product = this.products.find(x => x.ID == this.detailEntity.ProductID);
+    this.detailEntity.Price = this.detailEntity.Product.PromotionPrice ? this.detailEntity.Product.PromotionPrice : this.detailEntity.Product.Price
+  }
   public saveOrderDetail(valid: boolean) {
     if (valid) {
 
       this.detailEntity.Product = this.products.find(x => x.ID == this.detailEntity.ProductID);
-      this.detailEntity.Size=this.sizes.find(x=>x.ID==this.detailEntity.SizeId);
+      this.detailEntity.Size = this.sizes.find(x => x.ID == this.detailEntity.SizeId);
       let flag: boolean = true;
       for (var item of this.orderDetails) {
         if (item.ProductID == this.detailEntity.ProductID && item.SizeId == this.detailEntity.SizeId) {
