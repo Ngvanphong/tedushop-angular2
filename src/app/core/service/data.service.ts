@@ -23,6 +23,11 @@ export class DataService {
     this.headers.append("Authorization","Bearer "+this.authentication.getUserLogin().access_token)
     return this._http.get(SystemConstant.BASE_API+uri,{headers:this.headers}).map(this.extractData)
   };
+  getString(uri:string,key:string,id:string){
+    this.headers.delete("Authorization");
+    this.headers.append("Authorization","Bearer "+this.authentication.getUserLogin().access_token);
+    return this._http.get(SystemConstant.BASE_API+uri+"/?"+key+"="+id,{headers:this.headers}).map(this.extractData);
+  };
   post(uri:string, data?: any){
     this.headers.delete("Authorization");
     this.headers.append("Authorization","Bearer "+this.authentication.getUserLogin().access_token)

@@ -16,7 +16,6 @@ export class TagComponent implements OnInit {
   @ViewChild('addEditModal') addEditModal: ModalDirective;
   public entity: any;
   public tags: any[]=[];
-  public flag:boolean=true;
   public totalRow: number;
   public pageIndex: number = 1;
   public pageSize: number = 10;
@@ -41,21 +40,8 @@ export class TagComponent implements OnInit {
     this.load();
   }
   addEdit() {
-    this.flag=true;
     this.addEditModal.show();
     this.entity = {};
-  }
-
-  EditRoleModal(id:any){
-    this.flag=false;
-    this.loadTag(id);
-    this.addEditModal.show();
-  }
-  private loadTag(id:any){
-    this.dataservice.get('/api/tag/'+id)
-      .subscribe((res:any)=>{
-        this.entity=res;
-      })
   }
 
   deleteTag(id: any) {
@@ -78,24 +64,13 @@ export class TagComponent implements OnInit {
   }
 
   saveChanged(valid:boolean){
-    if(valid){
-      if (this.flag){
-        console.log(this.entity);
+    if(valid){    
         this.dataservice.post("/api/tag/add",JSON.stringify(this.entity)).subscribe((res:any)=>{
           this.load();
           this.addEditModal.hide();
           this._notification.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
 
-        },error=>this.dataservice.handleError(error))
-      }
-      else{
-          this.dataservice.put("/api/tag/update",JSON.stringify(this.entity)).subscribe((res:any)=>{
-            this.load();
-            this.addEditModal.hide();
-            this._notification.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
-  
-          },error=>this.dataservice.handleError(error))
-      }
+        },error=>this.dataservice.handleError(error))          
     }
   }
 
