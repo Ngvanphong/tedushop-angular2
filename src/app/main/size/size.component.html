@@ -28,7 +28,7 @@
                         <td>{{size.ID}}</td>
                         <td>{{size.Name}}</td>
                         <td>
-                            <button class="btn btn-primary" (click)="EditRoleModal(size.ID)">
+                            <button class="btn btn-primary" (click)="EditSizeModal(size.ID)">
                                 <i class="fa fa-pencil-square-o"></i>
                             </button>
                             <button class="btn btn-danger" (click)="deleteSize(size.ID)">
@@ -57,7 +57,7 @@
                 <form class="form-horizontal form-label-left" #formEditModal="ngForm" name="EditModel" novalidate (ngSubmit)="saveChanged(formEditModal.valid)"
                     *ngIf="entity">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Tên nhóm</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Tên Size</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
                             <input class="form-control" type="hidden" [(ngModel)]="entity.ID" name="id" />
                             <input type="text" class="form-control" required #name="ngModel" [(ngModel)]="entity.Name" name="name" />

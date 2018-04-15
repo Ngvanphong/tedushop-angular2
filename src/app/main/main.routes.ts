@@ -10,7 +10,7 @@ export const mainRoutes:Routes=[
     {path:'product-category',loadChildren:'./product-category/product-category.module#ProductCategoryModule'},
     {path:'product',loadChildren:'./product/product.module#ProductModule'},
     {path:'order',loadChildren:'./order/order.module#OrderModule'},
-    {path:'size',loadChildren:'./size/size.module#SizeModule'}
-
+    {path:'size',loadChildren:'./size/size.module#SizeModule'},
+    {path:'tag',loadChildren:'./tag/tag.module#TagModule'}
   ]}
 ]

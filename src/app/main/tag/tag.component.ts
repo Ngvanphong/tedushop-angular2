@@ -5,48 +5,73 @@ import { SystemConstant } from '../../core/common/system.constant';
 import { NotificationService } from '../../core/service/notification.service'
 import { MessageConstant } from '../../core/common/message.constant'
 
+
 @Component({
-  selector: 'app-size',
-  templateUrl: './size.component.html',
-  styleUrls: ['./size.component.css']
+  selector: 'app-tag',
+  templateUrl: './tag.component.html',
+  styleUrls: ['./tag.component.css']
 })
-export class SizeComponent implements OnInit {
+export class TagComponent implements OnInit {
+
   @ViewChild('addEditModal') addEditModal: ModalDirective;
   public entity: any;
-  public sizes: any;
+  public tags: any[]=[];
+  public flag:boolean=true;
+  public totalRow: number;
+  public pageIndex: number = 1;
+  public pageSize: number = 10;
+  public pageDisplay: number = 10;
   constructor(private dataservice: DataService, private _notification: NotificationService) { }
 
   ngOnInit() {
     this.load();
   }
 
+
   private load() {
-    this.dataservice.get('/api/productQuantity/getsizes')
+    this.dataservice.get('/api/tag/getall?page='+this.pageIndex+'&pageSize='+this.pageSize)
       .subscribe((res: any) => {
-        this.sizes = res;
+        this.tags = res.Items;
+        this.totalRow=res.TotalRows;
+        this.pageIndex=res.PageIndex;     
       })
   }
+  public pageChanged(event: any): void {
+    this.pageIndex = event.page;
+    this.load();
+  }
   addEdit() {
+    this.flag=true;
     this.addEditModal.show();
     this.entity = {};
   }
 
-  EditSizeModal(id:any){
-    this.loadSize(id);
+  EditRoleModal(id:any){
+    this.flag=false;
+    this.loadTag(id);
     this.addEditModal.show();
   }
-  private loadSize(id:any){
-    this.dataservice.get('/api/productQuantity/sizesdetail/'+id)
+  private loadTag(id:any){
+    this.dataservice.get('/api/tag/'+id)
       .subscribe((res:any)=>{
         this.entity=res;
       })
   }
 
-  deleteSize(id: any) {
+  deleteTag(id: any) {
     this._notification.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG, () => this.deleteConfirm(id))
   }
+  deleteAllTagNotUse() {
+    this._notification.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG, () => this.deleteConfirmAllTagNotUse())
+  }
   private deleteConfirm(id: any) {
-    this.dataservice.delete("/api/productQuantity/deletesize", "id", id).subscribe((res: Response) => {
+    this.dataservice.delete("/api/tag/delete", "id", id).subscribe((res: Response) => {
+      this._notification.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
+      this.load();
+    })
+  }
+  private deleteConfirmAllTagNotUse() {
+    this.dataservice.deleteAllTagNotUse("/api/tag/deletealltagnotuse").subscribe((res: Response) => {
       this._notification.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
       this.load();
     })
@@ -54,8 +79,9 @@ export class SizeComponent implements OnInit {
 
   saveChanged(valid:boolean){
     if(valid){
-      if (this.entity.ID==undefined){
-        this.dataservice.post("/api/productQuantity/addsizes",JSON.stringify(this.entity)).subscribe((res:any)=>{
+      if (this.flag){
+        console.log(this.entity);
+        this.dataservice.post("/api/tag/add",JSON.stringify(this.entity)).subscribe((res:any)=>{
           this.load();
           this.addEditModal.hide();
           this._notification.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
@@ -63,7 +89,7 @@ export class SizeComponent implements OnInit {
         },error=>this.dataservice.handleError(error))
       }
       else{
-          this.dataservice.put("/api/productQuantity/updatesizes",JSON.stringify(this.entity)).subscribe((res:any)=>{
+          this.dataservice.put("/api/tag/update",JSON.stringify(this.entity)).subscribe((res:any)=>{
             this.load();
             this.addEditModal.hide();
             this._notification.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
@@ -72,9 +98,5 @@ export class SizeComponent implements OnInit {
       }
     }
   }
-
-
- 
-
 
 }

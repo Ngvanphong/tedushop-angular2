@@ -15,14 +15,21 @@ export class LoginComponent implements OnInit {
   private loading= false
   private model:any={};
   private returnUrl:string;
+  private body:any;
   constructor(private _authentication:AuthenService,private _Utility:UtilityService,private _notification:NotificationService) { }
 
   ngOnInit() {
+    let body = document.getElementsByTagName('body')[0];
+    body.classList.remove("nav-md"); //remove the class
+    body.classList.add("login"); 
   }
   login(){
     this.loading=true;
-    this._authentication.login(this.model.username,this.model.password).subscribe(data=>{
-    this._Utility.navigate(UrlConstant.PRODUCT)
+    this._authentication.login(this.model.username,this.model.password).subscribe(data=>{  
+    let body = document.getElementsByTagName('body')[0];
+    body.classList.remove("login"); //remove the class
+    body.classList.add("nav-md"); 
+    this._Utility.navigate(UrlConstant.PRODUCT);   
     },error=>{
       this._notification.printErrorMessage(MessageConstant.SYSTEM_ERROR_MEG);
       this.loading=false;
