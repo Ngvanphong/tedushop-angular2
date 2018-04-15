@@ -1,4 +1,6 @@
 import { Component, OnDestroy, AfterViewInit, EventEmitter, Input, Output, ViewChild, OnChanges, OnInit } from '@angular/core';
+import {DataService} from '../../core/service/data.service'
+import {UploadService} from '../../core/service/upload.service'
 
 
 @Component({
@@ -14,7 +16,7 @@ export class SimpleTinyComponent implements OnInit, AfterViewInit, OnDestroy {
   
   editor;
   
-  constructor() {
+  constructor(private uploadService:UploadService) {
   }
   ngOnInit(){
 
@@ -38,8 +40,7 @@ export class SimpleTinyComponent implements OnInit, AfterViewInit, OnDestroy {
         editor.on('init', () => {
           editor.setContent(this.content);
         });
-      },
-      
+      },          
     })
   }
 

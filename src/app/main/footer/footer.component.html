@@ -1,0 +1,39 @@
+<div class="page-title">
+  <div class="title_left">
+      <h3>Footer</h3>
+  </div>
+</div>
+<div class="clearfix"></div>
+<div class="col-md-12 col-sm-12 col-xs-12">
+  <div class="x_panel">
+      <div class="x_title">
+          <ul class="nav navbar-right panel_toolbox">
+              <button class="btn btn-primary" (click)="addEdit()">Thêm mới</button>           
+          </ul>
+          <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+
+          <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th>Mã</th>                  
+                      <th>Nội dung</th>
+                      <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td width="10%">{{footer.ID}}</td>
+                      <td>{{footer.Content}}</td> 
+                      <td  width="10%">                       
+                        <button class="btn btn-primary" (click)="EditFooter(footer.ID)">
+                          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </button>
+                    </td>                         
+                  </tr>
+              </tbody>
+          </table>
+      </div>    
+  </div>
+</div>
