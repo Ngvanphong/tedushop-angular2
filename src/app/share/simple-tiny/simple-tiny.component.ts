@@ -1,6 +1,5 @@
 import { Component, OnDestroy, AfterViewInit, EventEmitter, Input, Output, ViewChild, OnChanges, OnInit } from '@angular/core';
-import {DataService} from '../../core/service/data.service'
-import {UploadService} from '../../core/service/upload.service'
+
 
 
 @Component({
@@ -16,7 +15,7 @@ export class SimpleTinyComponent implements OnInit, AfterViewInit, OnDestroy {
   
   editor;
   
-  constructor(private uploadService:UploadService) {
+  constructor() {
   }
   ngOnInit(){
 
@@ -29,8 +28,10 @@ export class SimpleTinyComponent implements OnInit, AfterViewInit, OnDestroy {
       language: 'vi_VN',
       skin_url: '/assets/tinymce/skins/lightgray',
       language_url: '/assets/tinymce/langs/vi_VN.js',
-      plugins: "autosave autolink code codesample colorpicker emoticons fullscreen hr image imagetools media preview table textcolor wordcount",
-      toolbar: "imageupload forecolor cut copy paste fontselect styleselect bold italic bold link preview code image", 
+      paste_data_images: true,
+      fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
+      plugins: "autosave autolink code codesample colorpicker emoticons fullscreen hr image code imagetools media preview table textcolor wordcount",
+      toolbar: "imageupload  forecolor cut copy paste fontselect  fontsizeselect bold italic bold link preview code image ", 
       setup: editor => {
         this.editor = editor;
         editor.on('keyup', () => {
@@ -38,9 +39,10 @@ export class SimpleTinyComponent implements OnInit, AfterViewInit, OnDestroy {
           this.onEditorKeyup.emit(content);
         });
         editor.on('init', () => {
-          editor.setContent(this.content);
+          editor.setContent(this.content,{format : 'raw'});
         });
-      },          
+      }, 
+           
     })
   }
 

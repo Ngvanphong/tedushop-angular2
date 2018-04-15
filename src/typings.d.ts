@@ -5,4 +5,3 @@ interface NodeModule {
 }
 declare var tinymce:any;
 declare var moment:any;
-declare var $:any;

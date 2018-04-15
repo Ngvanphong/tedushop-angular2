@@ -10,9 +10,8 @@ import {DataService} from '../../core/service/data.service';
 import {UploadService} from '../../core/service/upload.service';
 import {NotificationService} from '../../core/service/notification.service';
 import {UtilityService} from '../../core/service/utility.service';
-import {SimpleTinyComponent} from '../../share/simple-tiny/simple-tiny.component';
+import{SimpleTinyModule} from '../../share/simple-tiny/simple-tiny.module'
 import { EditorModule } from '@tinymce/tinymce-angular';
-
 const productRouter:Routes=[
   {path:'', redirectTo:'index', pathMatch:'full'},
   {path:'index',component:ProductComponent}
@@ -26,11 +25,12 @@ const productRouter:Routes=[
     MultiselectDropdownModule,
     Daterangepicker,
     ModalModule.forRoot(),
-    EditorModule
+    EditorModule,
+    SimpleTinyModule
 
   ],
   providers:[DataService, NotificationService,UploadService,UtilityService],
 
-  declarations: [ProductComponent,SimpleTinyComponent]
+  declarations: [ProductComponent]
 })
 export class ProductModule { }

@@ -8,7 +8,7 @@
   <div class="x_panel">
       <div class="x_title">
           <ul class="nav navbar-right panel_toolbox">
-              <button class="btn btn-primary" (click)="addEdit()">Thêm mới</button>           
+              <button class="btn btn-primary" *ngIf="footer.Content==null" (click)="addEdit()">Thêm mới</button>           
           </ul>
           <div class="clearfix"></div>
       </div>
@@ -25,9 +25,9 @@
               <tbody>
                   <tr>
                       <td width="10%">{{footer.ID}}</td>
-                      <td>{{footer.Content}}</td> 
+                      <td [innerHTML]="footer.Content"></td> 
                       <td  width="10%">                       
-                        <button class="btn btn-primary" (click)="EditFooter(footer.ID)">
+                        <button class="btn btn-primary" (click)="EditFooter()">
                           <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </button>
                     </td>                         
@@ -35,5 +35,45 @@
               </tbody>
           </table>
       </div>    
+  </div>
+</div>
+
+<!--this is a modal-->
+<div bsModal #addEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title pull-left">Thêm</h4>
+              <button type="button" class="close pull-right" (click)="addEditModal.hide()" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form class="form-horizontal form-label-left" #formEditModal="ngForm" name="EditModel" novalidate (ngSubmit)="saveChanges(formEditModal.valid)"
+                  *ngIf="footer">   
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" >Mã</label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <input class="form-control" #ma="ngModel" [(ngModel)]="footer.ID" name="ma"/>
+                    </div>
+                  </div>             
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Nội dung</label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <app-simple-tiny [elementId]="'my-editor-id'" [content]="this.footer.Content"  (onEditorKeyup)="keyupHandlerContentFooter($event)">
+                      </app-simple-tiny>
+                    </div>
+                  </div>               
+                  <div class="ln_solid"></div>
+                  <div class="form-group">
+                      <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                          <button type="submit" class="btn btn-success" (click)="ngSubmit" >Cập nhật</button>
+                          <button type="button" class="btn btn-danger" (click)="addEditModal.hide()">Hủy bỏ</button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
   </div>
 </div>

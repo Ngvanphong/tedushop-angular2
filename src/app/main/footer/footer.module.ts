@@ -5,6 +5,9 @@ import {DataService} from '../../core/service/data.service';
 import {NotificationService} from '../../core/service/notification.service';
 import {FormsModule} from '@angular/forms' ;
 import { FooterComponent } from './footer.component';
+import {ModalModule} from 'ngx-bootstrap';
+import{SimpleTinyModule} from '../../share/simple-tiny/simple-tiny.module'
+import { EditorModule } from '@tinymce/tinymce-angular';
 const FooterRoute:Routes=[
   {path:'', redirectTo:'index', pathMatch:'full'},
   {path:'index',component:FooterComponent}
@@ -14,6 +17,9 @@ const FooterRoute:Routes=[
     CommonModule,
     RouterModule.forChild(FooterRoute),
     FormsModule,
+    ModalModule.forRoot(),
+    EditorModule,
+    SimpleTinyModule,
   ],
   providers:[
     DataService,
