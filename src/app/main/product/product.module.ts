@@ -4,7 +4,6 @@ import { ProductComponent } from './product.component';
 import {Routes,RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {ModalModule,PaginationModule} from 'ngx-bootstrap';
-import { Daterangepicker } from 'ng2-daterangepicker';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import {DataService} from '../../core/service/data.service';
 import {UploadService} from '../../core/service/upload.service';
@@ -23,7 +22,6 @@ const productRouter:Routes=[
     FormsModule,
     PaginationModule,
     MultiselectDropdownModule,
-    Daterangepicker,
     ModalModule.forRoot(),
     EditorModule,
     SimpleTinyModule

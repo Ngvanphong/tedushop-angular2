@@ -41,8 +41,6 @@ export class ProductComponent implements OnInit {
   public quantityEntity: any = {};
   public productQuantities: any[];
   public sizeId: number = null;
-  public colorId: number = null;
-  public colors: any[];
   public sizes: any[];
 
 
@@ -66,7 +64,6 @@ export class ProductComponent implements OnInit {
     this._dataService.get('/api/product/getall?page=' + this.pageIndex + '&pageSize=' + this.pageSize + '&keyword=' + this.filterKeyword + '&categoryId='
       + this.filterCategoryID + '&filterHotPromotion=' + this.filterHotPromotion)
       .subscribe((response: any) => {
-        console.log(response);
         this.products = response.Items;
         this.pageIndex = response.PageIndex;
         this.totalRow = response.TotalRows;
