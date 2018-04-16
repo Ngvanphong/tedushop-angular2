@@ -12,6 +12,8 @@ export const mainRoutes:Routes=[
     {path:'order',loadChildren:'./order/order.module#OrderModule'},
     {path:'size',loadChildren:'./size/size.module#SizeModule'},
     {path:'tag',loadChildren:'./tag/tag.module#TagModule'},
-    {path:'footer',loadChildren:'./footer/footer.module#FooterModule'}
+    {path:'footer',loadChildren:'./footer/footer.module#FooterModule'},
+    // {path:'post',loadChildren:'./post/post.module#PostModule'},
+    {path:'post-category',loadChildren:'./post-category/post-category.module#PostCategoryModule'}
   ]}
 ]

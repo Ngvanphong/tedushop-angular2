@@ -1,12 +1,6 @@
 <div class="page-title">
   <div class="title_left">
-    <h3>Danh mục sản phẩm</h3>
-  </div>
-
-  <div class="title_right">
-    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-          <input type="text" name="filter" [(ngModel)]="filter" (keyup)="search()" class="form-control" placeholder="Tìm kiếm...">
-    </div>
+    <h3>Danh mục bài viết</h3>
   </div>
 </div>
 
@@ -23,7 +17,7 @@
       <div class="clearfix"></div>
     </div>
     <div class="x_content">
-      <tree-root #treeProductCategory [nodes]="_productCategoryHierachy">
+      <tree-root #treeProductCategory [nodes]="_postCategoryHierachy">
         <ng-template #treeNodeTemplate let-node let-index="index">
           <span>{{ node.data.Name }}</span>
           <button class="btn btn-primary" (click)="showEdit(node.data.ID)"> <i class="fa fa-pencil-square-o"  aria-hidden="true"></i></button>
@@ -97,7 +91,7 @@
             <div class="col-md-9 col-sm-9 col-xs-12">
               <select class="form-control" name="parentId" [(ngModel)]="entity.ParentID">
                  <option value="">--Chọn chức năng cha--</option>
-                  <option *ngFor="let x of _productCategories" [value]="x.ID">{{x.Name}}</option>
+                  <option *ngFor="let x of _postCategories" [value]="x.ID">{{x.Name}}</option>
                 </select>
               <input type="hidden" [(ngModel)]="entity.ParentID" name="parentId" class="form-control" />
             </div>

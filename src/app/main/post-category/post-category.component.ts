@@ -6,21 +6,21 @@ import { NotificationService } from '../../core/service/notification.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { TreeComponent } from 'angular-tree-component';
 
-
 @Component({
-  selector: 'app-product-category',
-  templateUrl: './product-category.component.html',
-  styleUrls: ['./product-category.component.css']
+  selector: 'app-post-category',
+  templateUrl: './post-category.component.html',
+  styleUrls: ['./post-category.component.css']
 })
-export class ProductCategoryComponent implements OnInit {
+export class PostCategoryComponent implements OnInit {
 
+ 
   @ViewChild(TreeComponent) private treeProductCategory: TreeComponent;
   @ViewChild('addEditModal') private addEditModal: ModalDirective;
   public filter: string = '';
   public functionId: string;
   public entity: any;
-  public _productCategoryHierachy: any[];
-  public _productCategories: any[];
+  public _postCategoryHierachy: any[];
+  public _postCategories: any[];
   constructor(private _dataService: DataService, private notificationService: NotificationService, private utilitiService: UtilityService) {
 
   }
@@ -35,9 +35,9 @@ export class ProductCategoryComponent implements OnInit {
   }
   // loadData
   public search() {
-    this._dataService.get('/api/productCategory/getall?filter=' + this.filter).subscribe((res: any[]) => {
-      this._productCategoryHierachy = this.utilitiService.Unflatten2(res);
-      this._productCategories = res;
+    this._dataService.get('/api/postcategory/getall').subscribe((res: any[]) => {
+      this._postCategoryHierachy = this.utilitiService.Unflatten2(res);
+      this._postCategories = res;
     }, error => this._dataService.handleError(error));
   }
 
@@ -50,7 +50,7 @@ export class ProductCategoryComponent implements OnInit {
   }
   // show Edit Form
   public showEdit(id: string) {
-    this._dataService.get('/api/productCategory/detail/' + id).subscribe((res: any) => {
+    this._dataService.get('/api/postcategory/detail/' + id).subscribe((res: any) => {
       this.entity = res;
       this.addEditModal.show();
     }, error => this._dataService.handleError(error));
@@ -59,7 +59,7 @@ export class ProductCategoryComponent implements OnInit {
   //Delete Confirm
 
   private deleteConfirm(id: string) {
-    this._dataService.delete('/api/productCategory/delete', 'id', id).subscribe((res: any) => {
+    this._dataService.delete('/api/postcategory/delete', 'id', id).subscribe((res: any) => {
       this.notificationService.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
       this.search();
     }, error => this._dataService.handleError(error));
@@ -75,14 +75,14 @@ export class ProductCategoryComponent implements OnInit {
   public saveChanges(valid: boolean) {
     if (valid) {
       if (this.entity.ID === undefined) {
-        this._dataService.post('/api/productCategory/add', this.entity).subscribe((res: any) => {
+        this._dataService.post('/api/postcategory/add', this.entity).subscribe((res: any) => {
           this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
           this.search();
           this.addEditModal.hide();
         }, error => this._dataService.handleError(error));
       }
       else {
-        this._dataService.put('/api/productCategory/update', this.entity).subscribe((res: any) => {
+        this._dataService.put('/api/postcategory/update', this.entity).subscribe((res: any) => {
           this.notificationService.printSuccesMessage(MessageConstant.UPDATE_OK_MEG);
           this.search();
           this.addEditModal.hide();
@@ -91,9 +91,6 @@ export class ProductCategoryComponent implements OnInit {
 
     }
   }
-
-  
-
 
 
 
