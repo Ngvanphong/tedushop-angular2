@@ -21,7 +21,7 @@ export class ProductComponent implements OnInit {
   public entity: any;
   public totalRow: number;
   public pageIndex: number = 1;
-  public pageSize: number = 10;
+  public pageSize: number = 20;
   public pageDisplay: number = 10;
   public filterKeyword: string = '';
   public filterCategoryID: number = null;

@@ -17,7 +17,7 @@
       <div class="x_title">
         <ul class="nav navbar-right panel_toolbox">
           <li>
-            <button *ngIf="_authenService.hasPermission('POST','create')" class="btn btn-success" routerLink="/main/post/add">Thêm mới</button>
+            <button *ngIf="_authenService.hasPermission('POST','create')" class="btn btn-success" routerLink="/main/post-add">Thêm mới</button>
           </li>
         </ul>
         <div class="clearfix"></div>
@@ -45,7 +45,7 @@
             <td>
                  
               <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Cập nhật" *ngIf="_authenService.hasPermission('POST','update')"
-              routerLink="/main/post/update">
+              routerLink="/main/post-update">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               </button>
               <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Xóa" *ngIf="_authenService.hasPermission('POST','delete')"
