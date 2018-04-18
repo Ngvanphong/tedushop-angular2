@@ -47,6 +47,8 @@ export class PostAddComponent implements OnInit {
     });
   }
 
+  
+
   public createAlias(name: any) {
     this.entity.Alias = this.utilityService.MakeSeoTitle(name);
   }

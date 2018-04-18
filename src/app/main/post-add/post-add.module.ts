@@ -11,13 +11,14 @@ import {NotificationService} from '../../core/service/notification.service';
 import {UtilityService} from '../../core/service/utility.service';
 import{SimpleTinyModule} from '../../share/simple-tiny/simple-tiny.module'
 import { EditorModule } from '@tinymce/tinymce-angular';
+
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 const PostAddRouter:Routes=[
   {path:'', redirectTo:'index/:id',pathMatch:'full'},
   {path:'index', redirectTo:'index/:id',pathMatch:'full'},
   {path:'index/:id', component:PostAddComponent}
 
 ]
-
 
 @NgModule({
   imports: [
@@ -27,8 +28,8 @@ const PostAddRouter:Routes=[
     MultiselectDropdownModule,
     ModalModule.forRoot(),
     EditorModule,
-    SimpleTinyModule
-
+    SimpleTinyModule,
+   
   ],
   providers:[DataService, NotificationService,UploadService,UtilityService],
   declarations: [PostAddComponent]
