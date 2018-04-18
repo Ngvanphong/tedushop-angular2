@@ -19,6 +19,7 @@ export class FooterComponent implements OnInit {
 
   ngOnInit() {
     this.load();
+    this.footer.Content='';
   }
 
   private load() {

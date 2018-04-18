@@ -43,7 +43,7 @@ export class ProductComponent implements OnInit {
   public sizeId: number = null;
   public sizes: any[];
 
-
+  
 
   constructor(public _authenService: AuthenService, private _dataService: DataService,
     private notificationService: NotificationService,
@@ -54,6 +54,7 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     this.loadProductCategories();
     this.search();
+    this.addEditModal.hide()  
   }
 
   public createAlias(name: any) {

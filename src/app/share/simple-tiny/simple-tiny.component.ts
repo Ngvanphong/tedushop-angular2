@@ -1,7 +1,6 @@
 import { Component, OnDestroy, AfterViewInit, EventEmitter, Input, Output, ViewChild, OnChanges, OnInit } from '@angular/core';
 
 
-
 @Component({
   selector: 'app-simple-tiny',
   templateUrl: './simple-tiny.component.html',
