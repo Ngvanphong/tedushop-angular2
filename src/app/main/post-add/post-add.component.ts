@@ -8,6 +8,7 @@ import { SystemConstant } from '../../core/common/system.constant';
 import { ModalDirective } from 'ngx-bootstrap';
 import { AuthenService } from '../../core/service/authen.service';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router'
 
 
 @Component({
@@ -22,6 +23,7 @@ export class PostAddComponent implements OnInit {
   public posts: any[];
   public postCategories: any[]
   private flagInitTiny: boolean = true;
+  public flagShowImage: boolean = false;
 
   /*Image Management*/
   @ViewChild('imageManageModal') private imageManageModal: ModalDirective;
@@ -29,22 +31,26 @@ export class PostAddComponent implements OnInit {
   public imageEntity: any = {};
   public postImages: any[];
   public image: any = {};
+  public parama: any;
 
   constructor(public _authenService: AuthenService, private _dataService: DataService,
     private notificationService: NotificationService,
-    private utilityService: UtilityService, private uploadService: UploadService) {
+    private utilityService: UtilityService, private uploadService: UploadService, private activateRoutes: ActivatedRoute) {
 
   }
 
   ngOnInit() {
     this.loadPostCategories();
-    this.entity.Content = ''
-    this.entity.ID = this.getRandomInt(1, 10000000000);
+    this.entity.Content = '';
+    this.parama = this.activateRoutes.params.subscribe(params => {
+      this.entity.ID = params['id'];
+    });
   }
 
   public createAlias(name: any) {
     this.entity.Alias = this.utilityService.MakeSeoTitle(name);
   }
+
   private loadPostCategories() {
     this._dataService.get('/api/postcategory/getall').subscribe((response: any[]) => {
       this.postCategories = response;
@@ -54,17 +60,19 @@ export class PostAddComponent implements OnInit {
     this.entity.Content = e;
   }
 
-  private getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-  }
+
 
   public showImageManage() {
-    this.imageEntity = {
-      PostId: this.entity.ID
+
+    if (this.entity.ID != null|| this.entity.ID!=undefined) {     
+      this.imageEntity.PostId = this.entity.ID;
+      this.flagShowImage=true;
     };
-    this.imageManageModal.show();
+    if (this.flagShowImage) {
+      this.imageManageModal.show();
+      this.loadPostImage(this.imageEntity.PostId);
+    }
+
   }
   public closePopupImage() {
     this.imageManageModal.hide();
@@ -77,7 +85,7 @@ export class PostAddComponent implements OnInit {
     if (valid) {
       var fi = this.imagePath.nativeElement;
       if (fi.files.length > 0) {
-        this.uploadService.postWithFile('/api/upload/saveimage?type=post', null, fi.files).then((imageUrl) => {
+        this.uploadService.postWithFile('/api/upload/saveimage?type=news', null, fi.files).then((imageUrl) => {
           this.imageEntity.Path = imageUrl;
           this._dataService.post('/api/postimage/add', JSON.stringify(this.imageEntity)).subscribe((res) => {
             this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
@@ -91,10 +99,20 @@ export class PostAddComponent implements OnInit {
     }
   }
 
-  private loadPostImage(id: any) {
+  private loadPostImage(id: number) {
     this._dataService.get('/api/postimage/getall?postId=' + id).subscribe((res) => {
       this.postImages = res;
     }, error => this._dataService.handleError(error));
+  }
+
+  public deleteImage(imageId: string) {
+    this.notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG, () => {
+      this._dataService.delete('/api/postImage/delete', 'id', imageId.toString()).subscribe((res) => {
+        this.notificationService.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
+        this.loadPostImage(this.imageEntity.PostId);
+      }, error => this._dataService.handleError(error));
+    })
+
   }
 
 
@@ -103,7 +121,7 @@ export class PostAddComponent implements OnInit {
     if (valid) {
       let fi = this.imageinput.nativeElement;
       if (fi.files.length > 0) {
-        this.uploadService.postWithFile("/api/upload/saveimage?type=post", null, fi.files)
+        this.uploadService.postWithFile("/api/upload/saveimage?type=news", null, fi.files)
           .then((imageUrl: string) => {
             this.entity.Image = imageUrl;
           }).then(() => {
@@ -116,7 +134,6 @@ export class PostAddComponent implements OnInit {
     }
   }
   private saveData(valid: boolean) {
-
     this._dataService.post("/api/post/add", JSON.stringify(this.entity)).subscribe((res: any) => {
       this.imageinput.nativeElement.value = '';
       this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);

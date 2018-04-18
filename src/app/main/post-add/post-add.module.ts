@@ -12,8 +12,10 @@ import {UtilityService} from '../../core/service/utility.service';
 import{SimpleTinyModule} from '../../share/simple-tiny/simple-tiny.module'
 import { EditorModule } from '@tinymce/tinymce-angular';
 const PostAddRouter:Routes=[
-  {path:'', redirectTo:'index',pathMatch:'full'},
-  {path:'index', component:PostAddComponent}
+  {path:'', redirectTo:'index/:id',pathMatch:'full'},
+  {path:'index', redirectTo:'index/:id',pathMatch:'full'},
+  {path:'index/:id', component:PostAddComponent}
+
 ]
 
 

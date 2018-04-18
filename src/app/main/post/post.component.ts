@@ -4,6 +4,7 @@ import { NotificationService } from '../../core/service/notification.service';
 import { MessageConstant } from '../../core/common/message.constant';
 import { SystemConstant } from '../../core/common/system.constant';
 import { AuthenService } from '../../core/service/authen.service';
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'app-post',
@@ -20,7 +21,7 @@ export class PostComponent implements OnInit {
   public postCategories: any[]
 
   constructor(public _authenService: AuthenService, private _dataService: DataService,
-    private notificationService: NotificationService, ) {
+    private notificationService: NotificationService, private router:Router ) {
 
   }
 
@@ -35,10 +36,20 @@ export class PostComponent implements OnInit {
         this.totalRow = response.TotalRows;
       }, error => this._dataService.handleError(error));
   }
-
+public postId:number;
   public pageChanged(event: any): void {
     this.pageIndex = event.page;
     this.search();
+  }
+  public GoPostAdd(){
+    this.postId=this.getRandomInt(1,100000000);
+    this.router.navigate(['/main/post-add/index/',this.postId ]);
+  }
+
+  private getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
   }
 
 }

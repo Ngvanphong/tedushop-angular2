@@ -17,7 +17,7 @@
       <div class="x_title">
         <ul class="nav navbar-right panel_toolbox">
           <li>
-            <button *ngIf="_authenService.hasPermission('POST','create')" class="btn btn-success" routerLink="/main/post-add">Thêm mới</button>
+            <button *ngIf="_authenService.hasPermission('POST','create')" class="btn btn-success" (click)="GoPostAdd()">Thêm mới</button>
           </li>
         </ul>
         <div class="clearfix"></div>

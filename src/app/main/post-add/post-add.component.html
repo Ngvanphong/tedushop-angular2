@@ -62,8 +62,8 @@
                   <input type="hidden" [(ngModel)]="entity.Image" name="imageUrl" />
                 </div>
 
-                <div class="col-md-3 col-sm-3 col-xs-12" *ngIf="entity.Avatar">
-                  <img [src]="BaseUrlImage + entity.Avatar" width="128" />
+                <div class="col-md-3 col-sm-3 col-xs-12" *ngIf="entity.Image">
+                  <img [src]="BaseUrlImage + entity.Image" width="128" />
                 </div>
               </div>
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Trạng thái</label>
@@ -123,10 +123,11 @@
         <div class="ln_solid"></div>
         <div class="form-group">
           <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-              <button class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Chọn ảnh"
+              <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Chọn ảnh"
               (click)="showImageManage()">
               <i class="fa fa-file-image-o" aria-hidden="true"></i>
             </button>
+            
             <button type="submit" class="btn btn-success" [disabled]="!addEditForm.form.valid">Cập nhật</button>
           </div>
         </div>
@@ -149,7 +150,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal form-label-left input_mask" *ngIf="imageEntity" novalidate #imageForm="ngForm" (ngSubmit)="savePostImage(imageForm.valid)">
+        <form class="form-horizontal form-label-left input_mask" *ngIf="imageEntity" name="form" novalidate #imageForm="ngForm" (ngSubmit)="savePostImage(imageForm.valid)">
           <div class="form-group row">
             <div class="col-xs-3">
               <label>Chọn ảnh</label>
@@ -188,10 +189,10 @@
                 <img [src]="baseFolder + image.Path" width="100" />
               </td>
               <td>
-                <input #caption class="nolinebox" [(ngModel)]="image.Caption" name="caption" type="text">
+                {{image.Caption}}
               </td>
               <td>
-                  <input #path class="nolinebox" [(ngModel)]="baseFolder+image.Path" name="path" type="text">
+                {{baseFolder+image.Path}}
                 </td>
               <td>
                 <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Xóa ảnh" (click)="deleteImage(image.ID)">
@@ -201,6 +202,11 @@
             </tr>
           </tbody>
         </table>
+        <div *ngIf="postImages && postImages.length == 0" class="col-md-12">
+          <div class="alert alert-info">
+            <strong>Thông báo!</strong> Hiện tại chưa có ảnh nào trong hệ thống
+          </div>
+        </div>
         <div class="ln_solid"></div>
       </div>
     </div>
