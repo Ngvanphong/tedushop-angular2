@@ -16,5 +16,6 @@ export const mainRoutes:Routes=[
     {path:'post',loadChildren:'./post/post.module#PostModule'},
     {path:'post-category',loadChildren:'./post-category/post-category.module#PostCategoryModule'},
     {path:'post-add',loadChildren:'./post-add/post-add.module#PostAddModule'},
+    {path:'post-update',loadChildren:'./post-update/post-update.module#PostUpdateModule'},
   ]}
 ]

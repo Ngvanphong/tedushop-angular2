@@ -51,5 +51,19 @@ public postId:number;
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
   }
+  private deleteConfirm(id: string) {
+    this._dataService.delete('/api/post/delete', 'id', id).subscribe((response: any) => {
+      this.notificationService.printSuccesMessage(MessageConstant.DELETE_OK_MEG);
+      this.search();
+    }, error => this._dataService.handleError(error));
+  }
+
+  public delete(id: string) {
+    this.notificationService.printConfirmationDialog(MessageConstant.CONFIRM_DELETE_MEG, () => this.deleteConfirm(id));
+  }
+
+  public NavigateToUpdate(id: string) {
+    this.router.navigate(['/main/post-update/index',id ]);
+  }
 
 }

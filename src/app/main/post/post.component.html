@@ -44,11 +44,11 @@
             <td>{{item.CreateBy}}</td>
             <td>
                  
-              <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Cập nhật" *ngIf="_authenService.hasPermission('POST','update')"
-              routerLink="/main/post-update">
+              <button class="btn btn-primary" *ngIf="_authenService.hasPermission('POST','update')"
+             (click)="NavigateToUpdate(item.ID)">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               </button>
-              <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Xóa" *ngIf="_authenService.hasPermission('POST','delete')"
+              <button class="btn btn-danger"  *ngIf="_authenService.hasPermission('POST','delete')"
                 (click)="delete(item.ID)">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </button>
