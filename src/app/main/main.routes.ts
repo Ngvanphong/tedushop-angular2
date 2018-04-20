@@ -17,5 +17,6 @@ export const mainRoutes:Routes=[
     {path:'post-category',loadChildren:'./post-category/post-category.module#PostCategoryModule'},
     {path:'post-add',loadChildren:'./post-add/post-add.module#PostAddModule'},
     {path:'post-update',loadChildren:'./post-update/post-update.module#PostUpdateModule'},
+    {path:'contact',loadChildren:'./contact/contact.module#ContactModule'},
   ]}
 ]
