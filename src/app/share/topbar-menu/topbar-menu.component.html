@@ -19,31 +19,36 @@
         <li role="presentation" class="dropdown">
           <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
             <i class="fa fa-envelope-o"></i>
-            <span class="badge bg-green">6</span>
+                <span class="badge bg-green" *ngIf="announcements && announcements.length>0">{{announcements.length}}</span>
           </a>
+         
           <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-            <li>
-              <a>
+            <li *ngFor="let item of announcements">
+              <a (click)="markAsRead(item.ID)">               
                 <span>
-            
-                  <span style="font-style:italic; font-weight: bold">3 mins ago</span>
+                  {{item.CustomerName}}          
                 </span>
-                <span class="message">
-                  Film festivals used to be do-or-die moments for movie makers. They were where...
+                <span>
+                 ĐT:{{item.CustomerMobile}}
+                 Email: {{item.CustomerEmail}}
+                 ĐC: {{item.CustomerAddress}}                                     
+                </span>
+                
+                <span class="message">                 
+                   <span class="time">{{item.CreateDate}}</span>              
                 </span>
               </a>
             </li>
-           
-            
             <li>
               <div class="text-center">
-                <a>
-                  <strong>Xem tất cả</strong>
-                  <i class="fa fa-angle-right"></i>
-                </a>
+                <a routerLink="/main/orderuserannouncement">
+                      <strong>Xem tất cả</strong>
+                      <i class="fa fa-angle-right"></i>
+                    </a>
               </div>
             </li>
           </ul>
+
         </li>
       </ul>
     </nav>
