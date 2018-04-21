@@ -64,7 +64,7 @@ export class TopbarMenuComponent implements OnInit {
 
   markAsRead(id: number) {
     var body = { orderId: id };
-    this._dataService.get('/api/orderuser/markAsRead?announId=' + id.toString()).subscribe((response: any) => {
+    this._dataService.get('/api/orderuser/markAsRead?orderId=' + id.toString()).subscribe((response: any) => {
       if (response) {
         this.loadAnnouncements();
         this._router.navigate(['/main/order/detail/'+id]);
