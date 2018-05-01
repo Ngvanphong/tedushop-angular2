@@ -68,7 +68,6 @@ export class ProductComponent implements OnInit {
         this.products = response.Items;
         this.pageIndex = response.PageIndex;
         this.totalRow = response.TotalRows;
-        this.pageSize = response.PageSize;
       }, error => this._dataService.handleError(error));
   }
   public reset() {
