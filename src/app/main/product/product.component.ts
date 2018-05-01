@@ -21,7 +21,7 @@ export class ProductComponent implements OnInit {
   public entity: any;
   public totalRow: number;
   public pageIndex: number = 1;
-  public pageSize: number = 20;
+  public pageSize: number = 10;
   public pageDisplay: number = 10;
   public filterKeyword: string = '';
   public filterCategoryID: number = null;
@@ -68,6 +68,7 @@ export class ProductComponent implements OnInit {
         this.products = response.Items;
         this.pageIndex = response.PageIndex;
         this.totalRow = response.TotalRows;
+        this.pageSize = response.PageSize;
       }, error => this._dataService.handleError(error));
   }
   public reset() {
