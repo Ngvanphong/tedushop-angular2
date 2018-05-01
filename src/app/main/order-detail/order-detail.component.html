@@ -16,7 +16,7 @@
         <li>
           <button class="btn btn-primary" (click)="goBack()">Quay lại</button>
         </li>
-         <!-- <li>
+        <!-- <li>
           <button class="btn btn-success" (click)="exportToExcel()">Xuất ra Excel</button>
         </li> -->
       </ul>
@@ -29,20 +29,22 @@
           <label class="control-label col-md-3 col-sm-3 col-xs-12">Tên khách hàng</label>
           <div class="col-md-9 col-sm-9 col-xs-12">
             <input type="hidden" [(ngModel)]="entity.ID" name="id" />
-            <input type="text" #customerName="ngModel" disabled [(ngModel)]="entity.CustomerName" required minlength="3" name="customerName" class="form-control">
+            <input type="text" #customerName="ngModel" disabled [(ngModel)]="entity.CustomerName" required minlength="3" name="customerName"
+              class="form-control">
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-md-3 col-sm-3 col-xs-12">Địa chỉ </label>
           <div class="col-md-9 col-sm-9 col-xs-12">
-            <textarea class="form-control" disabled #customerAddress="ngModel" [(ngModel)]="entity.CustomerAddress" name="customerAddress" rows="3"></textarea>
+            <textarea class="form-control" disabled #customerAddress="ngModel" [(ngModel)]="entity.CustomerAddress" name="customerAddress"
+              rows="3"></textarea>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-md-3 col-sm-3 col-xs-12">Email</label>
           <div class="col-md-9 col-sm-9 col-xs-12">
             <input type="text" #customerEmail="ngModel" disabled [(ngModel)]="entity.CustomerEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-               name="customerEmail" class="form-control">
+              name="customerEmail" class="form-control">
           </div>
         </div>
         <div class="form-group">
@@ -55,7 +57,8 @@
         <div class="form-group">
           <label class="control-label col-md-3 col-sm-3 col-xs-12">Ghi chú khách hàng </label>
           <div class="col-md-9 col-sm-9 col-xs-12">
-            <textarea class="form-control" disabled #customerMessage="ngModel" [(ngModel)]="entity.CustomerMessage" name="customerMessage" rows="3"></textarea>
+            <textarea class="form-control" disabled #customerMessage="ngModel" [(ngModel)]="entity.CustomerMessage" name="customerMessage"
+              rows="3"></textarea>
           </div>
         </div>
         <div class="form-group">
@@ -65,7 +68,7 @@
               <option value="">--Chọn phương thức tahnh toán--</option>
               <option value="CASH">Tiền mặt</option>
               <option value="BANKING">Chuyển khoản</option>
-          </select>
+            </select>
           </div>
         </div>
         <div class="form-group">
@@ -75,7 +78,7 @@
               <option value="">--Trạng thái--</option>
               <option value="PAID">Đã thanh toán</option>
               <option value="UNPAID">Chưa thanh toán</option>
-          </select>
+            </select>
           </div>
         </div>
         <div class="form-group">
@@ -83,67 +86,76 @@
           <div class="col-md-9 col-sm-9 col-xs-12">
             <div class="checkbox">
               <label>
-                   <input type="checkbox" disabled [(ngModel)]="entity.Status" name="status" #status="ngModel"> Hợp lệ
-                </label>
+                <input type="checkbox" disabled [(ngModel)]="entity.Status" name="status" #status="ngModel"> Hợp lệ
+              </label>
             </div>
 
           </div>
         </div>
         <div class="col-sm-offset-3">
-            <table class="table" *ngIf="orderDetails && orderDetails.length > 0">
-                <thead>
-                  <tr>
-                    <th>
-                      Sản phẩm
-                    </th>
-                    <th>
-                      ID sản phẩm
-                    </th>
-                    <th>
-                        Kích thước
-                      </th>
-                    <th>
-                      Số lượng
-                    </th>
-                    
-                    <th>Giá</th>
-                    <th>Thành tiền</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of orderDetails">
-                    <td>
-                      {{item.Product.Name}}
-                    </td>
-                    <td>
-                      {{item.Product.ID}}
-                    </td>
-                    <td>
-                        {{item.Size.Name}}
-                      </td>
-                    <td>
-                      {{item.Quantity | number}}
-                    </td>
-                    <td>{{item.Price | number}},000</td>
-                    <td>{{item.Price * item.Quantity | number}},000</td>
-                  </tr>
-                  <tr>
-                      <td colspan="6">
-                        Tổng tiền: {{totalAmount| number}},000VND
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="6">
-                      Tổng tiền cần thanh toán: {{entity.TotalPayment | number}},000VND
-                  </td>
-                </tr>
-                </tbody>
-              </table>
+          <table class="table" *ngIf="orderDetails && orderDetails.length > 0">
+            <thead>
+              <tr>
+                  <th>
+                     Hình ảnh
+                  </th>             
+                <th>
+                  Sản phẩm
+                </th>
+                <th>
+                  ID sản phẩm
+                </th>
+                <th>
+                  Kích thước
+                </th>
+                <th>
+                  Số lượng
+                </th>
+
+                <th>Giá</th>
+                <th>Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of orderDetails">
+                  <td>
+                    <img width="64" src="{{BaseUri+item.Product.ThumbnailImage}}">                    
+                </td>
+                <td>
+                  {{item.Product.Name}}
+                </td>
+                <td>
+                  {{item.Product.ID}}
+                </td>
+                <td>
+                  {{item.Size.Name}}
+                </td>
+                <td>
+                  {{item.Quantity | number}}
+                </td>
+                <td>{{item.Price | number}},000</td>
+                <td>{{item.Price * item.Quantity | number}},000</td>
+              </tr>
+              <tr>
+                <td colspan="7">
+                  Tổng tiền: {{totalAmount| number}},000VND
+                </td>
+              </tr>
+              <tr>
+                <td colspan="7">
+                  Tổng tiền cần thanh toán: {{entity.TotalPayment | number}},000VND
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        
+
         <div class="ln_solid"></div>
       </form>
     </div>
   </div>
 
 </div>
+
+<!--Modal detail product-->
+

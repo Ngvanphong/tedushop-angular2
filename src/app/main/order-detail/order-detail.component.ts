@@ -6,7 +6,8 @@ import { UtilityService } from '../../core/service/utility.service';
 import { MessageConstant } from '../../core/common/message.constant';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import {SystemConstant} from '../../core/common/system.constant'
+import {SystemConstant} from '../../core/common/system.constant';
+
 @Component({
   selector: 'app-order-detail',
   templateUrl: './order-detail.component.html',
@@ -17,11 +18,11 @@ export class OrderDetailComponent implements OnInit {
   public entity: any;
   public totalAmount: number;
   public orderId:any;
+  public BaseUri:string=SystemConstant.BASE_API;
   constructor(private utilityService: UtilityService,
     private _dataService: DataService,
     private activatedRoute: ActivatedRoute,
-    private notificationService: NotificationService) { }
-
+    private notificationService: NotificationService){ }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: Params) => {
@@ -36,6 +37,8 @@ export class OrderDetailComponent implements OnInit {
       this.entity = response;
     }, error => this._dataService.handleError(error));
   }
+
+
 
   public loadOrderDetail(id: number) {
     this._dataService.get('/api/order/getalldetails/' + id.toString()).subscribe((response: any[]) => {
