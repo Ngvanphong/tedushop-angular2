@@ -19,5 +19,6 @@ export const mainRoutes:Routes=[
     {path:'post-update',loadChildren:'./post-update/post-update.module#PostUpdateModule'},
     {path:'contact',loadChildren:'./contact/contact.module#ContactModule'},
     {path:'slide',loadChildren:'./slide/slide.module#SlideModule'},
+    {path:'systemconfig',loadChildren:'./systemconfig/systemconfig.module#SystemconfigModule'},
   ]}
 ]
