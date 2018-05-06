@@ -15,7 +15,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoute),
+    RouterModule.forRoot(appRoute, { useHash: true }),
     PaginationModule.forRoot(),
     LoginModule,
     MainModule,

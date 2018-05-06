@@ -12,8 +12,8 @@ import {UrlConstant} from '../core/common/url.constant'
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private loading= false
-  private model:any={};
+  public loading= false
+  public model:any={};
   private returnUrl:string;
   private body:any;
   constructor(private _authentication:AuthenService,private _Utility:UtilityService,private _notification:NotificationService) { }

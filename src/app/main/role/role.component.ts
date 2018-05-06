@@ -24,7 +24,7 @@ export class RoleComponent implements OnInit {
   ngOnInit() {
     this.load();
   }
- private load(){
+ public load(){
     this.dataservice.get('/api/appRole/getlistpaging?page='+this.pageIndex+'&pageSize='+this.pageSize+'&filter='+this.filter)
     .subscribe((res:any)=>{
       this.roles=res.Items;

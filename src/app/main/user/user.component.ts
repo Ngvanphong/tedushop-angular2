@@ -66,7 +66,7 @@ export class UserComponent implements OnInit {
 public selectedDate(event:any){
   this.entity.BirthDay = moment(event.end._d).format('DD/MM/YYYY');
 }
-  private load() {
+  public load() {
     this.dataservice.get('/api/appUser/getlistpaging?page=' + this.pageIndex + '&pageSize=' + this.pageSize + '&filter=' + this.filter)
       .subscribe((res: any) => {
         this.users = res.Items;
