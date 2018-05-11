@@ -19,7 +19,7 @@ export class PostComponent implements OnInit {
   public pageDisplay: number = 10;
   public posts: any[]=[];
   public postCategories: any[]
-  public keyword:string;
+  public keyword:string='';
 
   constructor(public _authenService: AuthenService, private _dataService: DataService,
     private notificationService: NotificationService, private router:Router ) {
@@ -30,7 +30,7 @@ export class PostComponent implements OnInit {
     this.search();
   }
   public search() {
-    this._dataService.get('/api/post/getall?page=' + this.pageIndex + '&pageSize=' + this.pageSize)
+    this._dataService.get('/api/post/getall?page=' + this.pageIndex + '&pageSize=' + this.pageSize+'&keyword='+this.keyword)
       .subscribe((response: any) => {
         this.posts = response.Items;
         this.pageIndex = response.PageIndex;
@@ -38,13 +38,7 @@ export class PostComponent implements OnInit {
       }, error => this._dataService.handleError(error));
   }
 
-  public loadwithkeyword(keyword:string){
-    this._dataService.get('/api/post/search?keyword='+this.keyword)
-    .subscribe((response: any) => {
-      this.posts = response.Items;       
-    }, error => this._dataService.handleError(error));
-  }
-
+ 
 public postId:number;
   public pageChanged(event: any): void {
     this.pageIndex = event.page;

@@ -17,7 +17,7 @@ export class FunctionComponent implements OnInit {
   @ViewChild('permissionModal') private permissionModal:ModalDirective;
   public _functions: any[];
   public _functionHierachy: any[];
-  public filter: string = "";
+  public filter: string = '';
   public entity:any;
   public editFlag:boolean;
   public _permission:any[];

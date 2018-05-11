@@ -143,7 +143,6 @@ export class PostUpdateComponent implements OnInit {
     this._dataService.put("/api/post/update", JSON.stringify(this.entity)).subscribe((res: any) => {
       this.imageinput.nativeElement.value = '';
       this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
-      this.goBack();
     }, error => this._dataService.handleError(error))
 
   }
