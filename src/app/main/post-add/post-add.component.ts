@@ -138,8 +138,7 @@ export class PostAddComponent implements OnInit {
   private saveData(valid: boolean) {
     this._dataService.post("/api/post/add", JSON.stringify(this.entity)).subscribe((res: any) => {
       this.imageinput.nativeElement.value = '';
-      this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);
-      this.goBack();
+      this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);    
     }, error => this._dataService.handleError(error))
 
   }
