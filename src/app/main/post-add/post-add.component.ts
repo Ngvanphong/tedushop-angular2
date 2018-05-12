@@ -80,6 +80,7 @@ export class PostAddComponent implements OnInit {
     this.imageManageModal.hide();
   }
   public goBack() {
+    tinymce.activeEditor.remove();
     this.utilityService.navigate('/main/post/index');
   }
 
@@ -138,7 +139,8 @@ export class PostAddComponent implements OnInit {
   private saveData(valid: boolean) {
     this._dataService.post("/api/post/add", JSON.stringify(this.entity)).subscribe((res: any) => {
       this.imageinput.nativeElement.value = '';
-      this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG);   
+      this.notificationService.printSuccesMessage(MessageConstant.CREATE_OK_MEG); 
+      this.goBack();  
     }, error => this._dataService.handleError(error))
 
   }
