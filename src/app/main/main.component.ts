@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  EventEmitter, ElementRef, NgZone, Output, ChangeDetectorRef } from '@angular/core';
 import {AuthenService} from '../core/service/authen.service';
 import {LoggedInUser} from '../core/domain/loggedin.user'
 import {UtilityService} from '../core/service/utility.service';
@@ -10,7 +10,7 @@ import {SystemConstant} from '../core/common/system.constant';
 })
 export class MainComponent implements OnInit {
   public user:LoggedInUser;
-  constructor(private _authentication:AuthenService, private _utility:UtilityService) {
+  constructor(private _authentication:AuthenService, private _utility:UtilityService,) {
 
    }
 
