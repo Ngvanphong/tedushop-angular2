@@ -21,6 +21,7 @@ export class PostCategoryComponent implements OnInit {
   public entity: any;
   public _postCategoryHierachy: any[];
   public _postCategories: any[];
+  private arryPostCategory:any[]=[];
   constructor(private _dataService: DataService, private notificationService: NotificationService, private utilitiService: UtilityService) {
 
   }
@@ -38,6 +39,7 @@ export class PostCategoryComponent implements OnInit {
     this._dataService.get('/api/postcategory/getall').subscribe((res: any[]) => {
       this._postCategoryHierachy = this.utilitiService.Unflatten2(res);
       this._postCategories = res;
+      this.arryPostCategory=res;
     }, error => this._dataService.handleError(error));
   }
 
@@ -45,6 +47,7 @@ export class PostCategoryComponent implements OnInit {
   // show add
   public showAdd() {
     this.entity = { Status: true, HomeFlag: true };
+    this._postCategories=this.arryPostCategory;
     this.addEditModal.show();
 
   }
@@ -52,10 +55,16 @@ export class PostCategoryComponent implements OnInit {
   public showEdit(id: string) {
     this._dataService.get('/api/postcategory/detail/' + id).subscribe((res: any) => {
       this.entity = res;
+      this._postCategories=this.arrayRemove(this.arryPostCategory,this.entity.ID);
       this.addEditModal.show();
     }, error => this._dataService.handleError(error));
   }
 
+  private arrayRemove(arr, value) {
+    return arr.filter(function(ele){
+        return ele.ID != value;
+    });
+ }
   //Delete Confirm
 
   private deleteConfirm(id: string) {

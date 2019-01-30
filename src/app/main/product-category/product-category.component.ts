@@ -21,6 +21,7 @@ export class ProductCategoryComponent implements OnInit {
   public entity: any;
   public _productCategoryHierachy: any[];
   public _productCategories: any[];
+  private arryProductCategory:any[]=[];
   constructor(private _dataService: DataService, private notificationService: NotificationService, private utilitiService: UtilityService) {
 
   }
@@ -38,6 +39,7 @@ export class ProductCategoryComponent implements OnInit {
     this._dataService.get('/api/productCategory/getall?filter=' + this.filter).subscribe((res: any[]) => {
       this._productCategoryHierachy = this.utilitiService.Unflatten2(res);
       this._productCategories = res;
+      this.arryProductCategory=res;
     }, error => this._dataService.handleError(error));
   }
 
@@ -45,13 +47,14 @@ export class ProductCategoryComponent implements OnInit {
   // show add
   public showAdd() {
     this.entity = { Status: true, HomeFlag: true };
-    this.addEditModal.show();
-
+    this._productCategories=this.arryProductCategory;
+    this.addEditModal.show();   
   }
   // show Edit Form
   public showEdit(id: string) {
     this._dataService.get('/api/productCategory/detail/' + id).subscribe((res: any) => {
       this.entity = res;
+      this._productCategories=this.arrayRemove(this.arryProductCategory,this.entity.ID);
       this.addEditModal.show();
     }, error => this._dataService.handleError(error));
   }
@@ -64,6 +67,12 @@ export class ProductCategoryComponent implements OnInit {
       this.search();
     }, error => this._dataService.handleError(error));
   }
+
+  private arrayRemove(arr, value) {
+    return arr.filter(function(ele){
+        return ele.ID != value;
+    });
+ }
 
   //action delete
 

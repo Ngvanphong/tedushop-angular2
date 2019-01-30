@@ -22,6 +22,7 @@ export class FunctionComponent implements OnInit {
   public editFlag:boolean;
   public _permission:any[];
   public functionId : string;
+  private arryfuntion:any[]=[];
   constructor(private _dataService: DataService, private utilityService: UtilityService,
      private _notificationService:NotificationService) {
 
@@ -32,6 +33,7 @@ export class FunctionComponent implements OnInit {
   }
  public addEdit(){
    this.entity={Status:true};
+   this._functions=this.arryfuntion;
    this.addEditModal.show();
   this.editFlag=false;
  }
@@ -40,6 +42,7 @@ export class FunctionComponent implements OnInit {
     this._dataService.get('/api/function/getall?filter=' + this.filter)
       .subscribe((response: any[]) => {
         this._functions = response.filter(x => x.ParentId == null);
+        this.arryfuntion=response.filter(x => x.ParentId == null);
         this._functionHierachy = this.utilityService.Unflatten(response);
       }, error => this._dataService.handleError(error));
   };
@@ -48,9 +51,15 @@ export class FunctionComponent implements OnInit {
     this._dataService.get("/api/function/detail/"+id).subscribe((res:any)=>{
       this.entity=res;
       this.editFlag=true;
+      this._functions=this.arrayRemove(this.arryfuntion,this.entity.ID);
       this.addEditModal.show();
     },error=>this._dataService.handleError(error))
   };
+  private arrayRemove(arr, value) {
+    return arr.filter(function(ele){
+        return ele.ID != value;
+    });
+ }
 
   private deleteConfirm(id:any){
     this._dataService.delete("/api/function/delete",'id',id).subscribe((res:any)=>{
